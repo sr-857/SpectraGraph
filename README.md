@@ -1,6 +1,17 @@
-# SpectraGraph
-Open-Source OSINT Intelligence Platform
-Distributed Transforms • Graph-Driven Enrichment • API + Worker Pipeline • Multi‑Module Architecture
+# 🌌 SpectraGraph
+
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](./LICENSE)
+[![Ethical Software](https://img.shields.io/badge/ethical-use-blue.svg)](./ETHICS.md)
+
+> _SpectraGraph is an open-source OSINT intelligence studio for ethical investigations, transparent reporting, and repeatable graph analysis._
+
+SpectraGraph empowers analysts, journalists, and incident responders to map relationships across digital footprints without sacrificing data custody.
+
+✨ **Why users love it**
+
+- ⚡️ Graph-first workspace with fluid rendering and multiple visual modes
+- 🧠 Live, modular transforms that enrich entities as you explore
+- 🛡️ Built for rigorous, defensible investigation workflows end to end
 
 ## 🚀 Overview
 SpectraGraph is a modular OSINT enrichment platform built as a production‑grade distributed system, designed for scalable intelligence gathering. It uses a layered architecture—frontend → API → orchestration core → transforms → shared types—and integrates Postgres, Redis, and Neo4j through a Celery‑based workflow engine.
