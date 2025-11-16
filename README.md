@@ -1,6 +1,5 @@
 # 🌌 SpectraGraph
 
-[![CI](https://github.com/sr-857/SpectraGraph/actions/workflows/ci.yml/badge.svg)](https://github.com/sr-857/SpectraGraph/actions/workflows/ci.yml)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](./LICENSE)
 [![Ethical Software](https://img.shields.io/badge/ethical-use-blue.svg)](./ETHICS.md)
 
