@@ -82,28 +82,7 @@ This prevents cycles and keeps the system modular.
 - Shared Pydantic models defining all entity types
 - Consumed across API, core, and transforms
 
-```mermaid
-flowchart LR
-  FE[Frontend]
-  API[API (FastAPI)]
-  CORE[Core (Orchestrator / Celery)]
-  TRANS[Transforms (OSINT Enrichers)]
-  TYPES[Types (Pydantic Models)]
-  PG[(Postgres)]
-  NEO[(Neo4j)]
-  REDIS[(Redis / Celery Broker)]
-
-  FE --> API
-  API --> CORE
-  CORE --> TRANS
-  TRANS --> TYPES
-  CORE --> PG
-  CORE --> NEO
-  CORE --> REDIS
-  API --> PG
-  API --> NEO
-  API --> REDIS
-```
+> See the architecture diagram above for a visual of these relationships.
 
 ## 🔄 Data Flow
 1. Frontend issues REST/WebSocket call
