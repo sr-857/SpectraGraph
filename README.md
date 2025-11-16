@@ -103,6 +103,27 @@ Core → Redis (Celery broker)
 API  → Postgres / Neo4j / Redis for reads & task enqueueing
 ```
 
+> Architecture cheat sheet
+
+| Layer | Primary Tech | Responsibilities | Key Integrations |
+| --- | --- | --- | --- |
+| 🎨 Frontend | Vite · React · TypeScript | Drive investigative UI, dashboards, live updates | REST + WebSocket calls to API |
+| 🚪 API Gateway | FastAPI | Auth, validation, rate limiting, GraphQL-ready endpoints | Calls Core, reads Postgres/Neo4j |
+| 🧠 Core Orchestrator | Celery · Async I/O | Dispatch transforms, manage jobs, marshal secrets | Uses Redis broker, persists to Postgres/Neo4j |
+| 🔍 Transform Workers | Python OSINT plugins | Run enrichment scans, normalize outputs | Pull secrets from Vault, reuse Shared Types |
+| 🧱 Shared Types | Pydantic models | Single source of truth for domain schemas | Imported across API/Core/Transforms |
+| 🗄️ Storage Layer | Postgres · Neo4j | Persist entities, relationships, audit logs | Read by API/Core, visualized in UI |
+| ⚡ Messaging | Redis | Task queue + cache for hot entities | Backed by Celery + API prefetch |
+
+**Mission pipeline**
+
+1. 🧑‍💻 Analyst triggers scan from the UI.
+2. 🚀 API validates payload, enriches with baseline context.
+3. 🧠 Core fans out Celery tasks with vault-secured parameters.
+4. 🛰️ Transforms gather OSINT signals and emit typed intel.
+5. 🗃️ Results land in Postgres (facts) and Neo4j (graph edges).
+6. 📊 UI auto-refreshes dashboards via websockets + cached reads.
+
 ## 🔄 Data Flow
 1. Frontend issues REST/WebSocket call
 2. API schedules Celery jobs
