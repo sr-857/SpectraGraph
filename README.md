@@ -84,7 +84,7 @@ This prevents cycles and keeps the system modular.
 
 ```mermaid
 flowchart LR
-  FE[Frontend] --> API[API (FastAPI)]
+  FE[Frontend] -->|WS / REST| API[API (FastAPI)]
   API --> CORE[Core (Orchestrator / Celery)]
   CORE --> TRANS[Transforms (OSINT Enrichers)]
   TRANS --> TYPES[Types (Pydantic Models)]
@@ -94,7 +94,7 @@ flowchart LR
   API -->|reads| PG
   API -->|reads| NEO
   API -->|enqueues| REDIS
-  FE ---|WS / REST| API
+  FE --- API
 ```
 
 ## 🔄 Data Flow
