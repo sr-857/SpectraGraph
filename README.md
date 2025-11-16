@@ -82,7 +82,26 @@ This prevents cycles and keeps the system modular.
 - Shared Pydantic models defining all entity types
 - Consumed across API, core, and transforms
 
-> See the architecture diagram above for a visual of these relationships.
+```
+Frontend (Vite/React)
+   │
+   ▼
+API (FastAPI)
+   │
+   ▼
+Core (Celery Orchestrator)
+   │
+   ▼
+Transforms (OSINT Enrichers)
+   │
+   ▼
+Types (Pydantic Models)
+
+Core → Postgres (relational storage)
+Core → Neo4j (graph index)
+Core → Redis (Celery broker)
+API  → Postgres / Neo4j / Redis for reads & task enqueueing
+```
 
 ## 🔄 Data Flow
 1. Frontend issues REST/WebSocket call
