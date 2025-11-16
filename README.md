@@ -83,17 +83,17 @@ This prevents cycles and keeps the system modular.
 - Consumed across API, core, and transforms
 
 ```mermaid
-flowchart LR
-  FE[Frontend] -->|WS / REST| API[API (FastAPI)]
+graph LR
+  FE[Frontend] -- WS / REST --> API[API (FastAPI)]
   API --> CORE[Core (Orchestrator / Celery)]
   CORE --> TRANS[Transforms (OSINT Enrichers)]
   TRANS --> TYPES[Types (Pydantic Models)]
-  CORE -->|writes| PG[(Postgres)]
-  CORE -->|writes| NEO[(Neo4j)]
-  CORE -->|uses| REDIS[(Redis / Celery Broker)]
-  API -->|reads| PG
-  API -->|reads| NEO
-  API -->|enqueues| REDIS
+  CORE -- writes --> PG[(Postgres)]
+  CORE -- writes --> NEO[(Neo4j)]
+  CORE -- uses --> REDIS[(Redis / Celery Broker)]
+  API -- reads --> PG
+  API -- reads --> NEO
+  API -- enqueues --> REDIS
   FE --- API
 ```
 
