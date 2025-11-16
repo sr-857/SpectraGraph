@@ -1,5 +1,5 @@
 {
-  "name": "flowsint",
+  "name": "spectragraph",
   "version": "0.1.0",
   "license": "AGPL-3.0-or-later",
   "description": "Graph analysis and intelligence platform",
@@ -28,6 +28,6 @@
     "cz-conventional-changelog": "^3.3.0"
   },
   "workspaces": [
-    "flowsint-app"
+    "spectragraph-app"
   ]
 }

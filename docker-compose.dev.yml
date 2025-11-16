@@ -1,23 +1,23 @@
-name: flowsint-dev
+name: spectragraph-dev
 
 services:
   # PostgreSQL database
   postgres:
     image: postgres:15
-    container_name: flowsint-postgres-dev
+    container_name: spectragraph-postgres-dev
     restart: always
     environment:
-      POSTGRES_USER: flowsint
-      POSTGRES_PASSWORD: flowsint
-      POSTGRES_DB: flowsint
+      POSTGRES_USER: spectragraph
+      POSTGRES_PASSWORD: spectragraph
+      POSTGRES_DB: spectragraph
     ports:
       - "5433:5432"
     volumes:
       - pg_data_dev:/var/lib/postgresql/data
     networks:
-      - flowsint_network
+      - spectragraph_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U flowsint"]
+      test: ["CMD-SHELL", "pg_isready -U spectragraph"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,11 +25,11 @@ services:
   # Redis for Celery & cache
   redis:
     image: redis:alpine
-    container_name: flowsint-redis-dev
+    container_name: spectragraph-redis-dev
     ports:
       - "6379:6379"
     networks:
-      - flowsint_network
+      - spectragraph_network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -39,7 +39,7 @@ services:
   # Neo4j graph database
   neo4j:
     image: neo4j:5
-    container_name: flowsint-neo4j-dev
+    container_name: spectragraph-neo4j-dev
     ports:
       - "7474:7474"  # Web UI
       - "7687:7687"  # Bolt
@@ -56,7 +56,7 @@ services:
       - neo4j_plugins_dev:/plugins
     restart: unless-stopped
     networks:
-      - flowsint_network
+      - spectragraph_network
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
       interval: 10s
@@ -67,20 +67,20 @@ services:
   api:
     build:
       context: .
-      dockerfile: flowsint-api/Dockerfile
+      dockerfile: spectragraph-api/Dockerfile
       target: dev
-    container_name: flowsint-api-dev
+    container_name: spectragraph-api-dev
     restart: unless-stopped
     ports:
       - "5001:5001"
     volumes:
-      - ./flowsint-api:/app/flowsint-api
-      - ./flowsint-core:/app/flowsint-core
-      - ./flowsint-types:/app/flowsint-types
-      - ./flowsint-transforms:/app/flowsint-transforms
+      - ./spectragraph-api:/app/spectragraph-api
+      - ./spectragraph-core:/app/spectragraph-core
+      - ./spectragraph-types:/app/spectragraph-types
+      - ./spectragraph-transforms:/app/spectragraph-transforms
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DATABASE_URL=postgresql://flowsint:flowsint@postgres:5432/flowsint
+      - DATABASE_URL=postgresql://spectragraph:spectragraph@postgres:5432/spectragraph
       - NEO4J_URI_BOLT=bolt://neo4j:7687
       - NEO4J_USERNAME=${NEO4J_USERNAME}
       - NEO4J_PASSWORD=${NEO4J_PASSWORD}
@@ -100,25 +100,25 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - flowsint_network
+      - spectragraph_network
 
   # Celery Worker
   celery:
     build:
       context: .
-      dockerfile: flowsint-api/Dockerfile
+      dockerfile: spectragraph-api/Dockerfile
       target: dev
-    container_name: flowsint-celery-dev
+    container_name: spectragraph-celery-dev
     restart: unless-stopped
-    command: celery -A flowsint_core.core.celery worker --loglevel=info --pool=solo
+    command: celery -A spectragraph_core.core.celery worker --loglevel=info --pool=solo
     volumes:
-      - ./flowsint-api:/app/flowsint-api
-      - ./flowsint-core:/app/flowsint-core
-      - ./flowsint-types:/app/flowsint-types
-      - ./flowsint-transforms:/app/flowsint-transforms
+      - ./spectragraph-api:/app/spectragraph-api
+      - ./spectragraph-core:/app/spectragraph-core
+      - ./spectragraph-types:/app/spectragraph-types
+      - ./spectragraph-transforms:/app/spectragraph-transforms
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DATABASE_URL=postgresql://flowsint:flowsint@postgres:5432/flowsint
+      - DATABASE_URL=postgresql://spectragraph:spectragraph@postgres:5432/spectragraph
       - NEO4J_URI_BOLT=bolt://neo4j:7687
       - NEO4J_USERNAME=${NEO4J_USERNAME}
       - NEO4J_PASSWORD=${NEO4J_PASSWORD}
@@ -135,18 +135,18 @@ services:
       api:
         condition: service_healthy
     networks:
-      - flowsint_network
+      - spectragraph_network
 
   # Frontend
   app:
     build:
-      context: ./flowsint-app
+      context: ./spectragraph-app
       dockerfile: Dockerfile.dev
-    container_name: flowsint-app-dev
+    container_name: spectragraph-app-dev
     ports:
       - "5173:5173"
     volumes:
-      - ./flowsint-app:/app
+      - ./spectragraph-app:/app
       - /app/node_modules
     environment:
       - VITE_API_URL=${VITE_API_URL}
@@ -154,13 +154,13 @@ services:
       api:
         condition: service_healthy
     networks:
-      - flowsint_network
+      - spectragraph_network
     stdin_open: true
     tty: true
 
 networks:
-  flowsint_network:
-    name: flowsint_network_dev
+  spectragraph_network:
+    name: spectragraph_network_dev
     driver: bridge
 
 volumes:

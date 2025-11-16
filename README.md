@@ -1,210 +1,169 @@
-# 🌌 SpectraGraph
+# SpectraGraph
+Open-Source OSINT Intelligence Platform
+Distributed Transforms • Graph-Driven Enrichment • API + Worker Pipeline • Multi‑Module Architecture
 
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](./LICENSE)
-[![Ethical Software](https://img.shields.io/badge/ethical-use-blue.svg)](./ETHICS.md)
+## 🚀 Overview
+SpectraGraph is a modular OSINT enrichment platform built as a production‑grade distributed system, designed for scalable intelligence gathering. It uses a layered architecture—frontend → API → orchestration core → transforms → shared types—and integrates Postgres, Redis, and Neo4j through a Celery‑based workflow engine.
 
-> _SpectraGraph is an open-source OSINT intelligence studio for ethical investigations, transparent reporting, and repeatable graph analysis._
+This structure allows SpectraGraph to ingest an entity (domain, IP, phone, crypto, org, etc.), schedule distributed enrichments, and return structured intelligence suitable for graphs, investigations, and automated analytics.
 
-SpectraGraph empowers analysts, journalists, and incident responders to map relationships across digital footprints without sacrificing data custody.
+SpectraGraph is built for teams that need:
 
-✨ **Why users love it**
+- Extensible OSINT transforms
+- Distributed execution at scale
+- Typed entities across multiple data sources
+- Real-time investigation workflows
 
-- ⚡️ Graph-first workspace with fluid rendering and multiple visual modes
-- 🧠 Live, modular transforms that enrich entities as you explore
-- 🛡️ Built for rigorous, defensible investigation workflows end to end
+## 🧩 Monorepo Layout
+SpectraGraph uses a Poetry workspace with multiple Python packages and a separate frontend.
 
-<img width="1439" height="899" alt="SpectraGraph interface" src="https://github.com/user-attachments/assets/01eb128e-bef4-486e-9276-c4da58f829ae" />
-
----
-
-## 🚀 Quick start
-
-### ✅ Prerequisites
-
-- Docker
-- Make
-
-### 🏁 Install & launch (production)
-
-```bash
-git clone https://github.com/sr-857/SpectraGraph.git
-cd SpectraGraph
-make prod
+```
+SpectraGraph/
+│
+├── spectragraph-core/         # Orchestration, Celery, vault, graph & utils
+├── spectragraph-types/        # Pydantic entity models shared everywhere
+├── spectragraph-transforms/   # All OSINT transforms (domain, IP, crypto…)
+├── spectragraph-api/          # FastAPI service, routers, migrations
+├── spectragraph-app/          # Vite/React frontend
+│
+├── docker-compose.yml         # Base Compose
+├── docker-compose.dev.yml     # Dev stack (Postgres, Redis, Neo4j, API, worker)
+├── docker-compose.prod.yml    # Prod stack
+├── Makefile                   # Dev / prod / install workflows
+├── README.md                  # Docs
+├── ETHICS.md                  # Responsible use guidelines
+└── DISCLAIMER.md              # Legal positioning
 ```
 
-Then head to [http://localhost:5173/register](http://localhost:5173/register) to create your first workspace.
+## 🏗 Architecture
+SpectraGraph is structured to enforce clean dependency boundaries:
 
-> 🔐 SpectraGraph keeps every investigation on your own hardware—perfect for sensitive OSINT.
+**Frontend → API → Core → Transforms → Types**
 
-### 👨‍💻 Development mode
+This prevents cycles and keeps the system modular.
+
+![SpectraGraph Architecture](docs/assets/architecture.svg)
+
+> Diagram: frontend → API → core → transforms → types with Postgres, Neo4j, Redis, Vault, and Celery worker pool.
+
+### 🔹 Frontend (`spectragraph-app/`)
+- Vite + React
+- Investigation UI, entity views, and transform triggers
+
+### 🔹 API (`spectragraph-api/`)
+- FastAPI service
+- Routes: investigations, transforms, health, sketches
+- Alembic migrations for Postgres
+- Orchestrates Celery tasks
+
+### 🔹 Core (`spectragraph-core/`)
+- Celery worker setup
+- Vault + secret resolution
+- Graph clients
+- Base `Transform` class
+- Task lifecycle: init → preprocess → scan → normalize
+
+### 🔹 Transforms (`spectragraph-transforms/`)
+- OSINT enrichers for:
+  - Domain
+  - IP
+  - Email
+  - Phone
+  - Crypto
+  - Social
+  - Leak databases
+- Each transform:
+  - Subclasses `Transform`
+  - Declares `params_schema`
+  - Uses vault-secured secrets when required
+  - Implements `preprocess()` and `scan()`
+
+### 🔹 Types (`spectragraph-types/`)
+- Shared Pydantic models defining all entity types
+- Consumed across API, core, and transforms
+
+```mermaid
+flowchart LR
+  FE[Frontend] --> API[API (FastAPI)]
+  API --> CORE[Core (Orchestrator / Celery)]
+  CORE --> TRANS[Transforms (OSINT Enrichers)]
+  TRANS --> TYPES[Types (Pydantic Models)]
+  CORE -->|writes| PG[(Postgres)]
+  CORE -->|writes| NEO[(Neo4j)]
+  CORE -->|uses| REDIS[(Redis / Celery Broker)]
+  API -->|reads| PG
+  API -->|reads| NEO
+  API -->|enqueues| REDIS
+  FE ---|WS / REST| API
+```
+
+## 🔄 Data Flow
+1. Frontend issues REST/WebSocket call
+2. API schedules Celery jobs
+3. Core resolves secrets and validates params
+4. Transform executes enrichment logic
+5. Results persist to Postgres / Neo4j
+6. API returns intelligence to the UI
+
+## 🛠 Development Workflow
+
+Install Python deps:
+
+```bash
+poetry install
+```
+
+Install frontend deps:
+
+```bash
+npm install
+```
+
+Start the dev environment (Postgres, Redis, Neo4j, API, Worker, Frontend):
 
 ```bash
 make dev
 ```
 
-The live dev environment runs at [http://localhost:5173](http://localhost:5173).
+Docker is required. On systems without Docker, install Docker CLI or Podman with Docker compatibility.
 
----
-
-## 🧰 Feature catalogue
-
-SpectraGraph ships with an expanding library of transforms that augment your graphs in real time.
-
-### 🌐 Domain transforms
-
-- Reverse DNS Resolution – find domains pointing to an IP
-- DNS Resolution – resolve a domain to IP addresses
-- Subdomain Discovery – enumerate subdomains
-- WHOIS Lookup – retrieve domain registration records
-- Domain to Website – convert a domain into a website entity
-- Domain to Root Domain – extract the registrable domain
-- Domain to ASN – identify autonomous systems for a domain
-- Domain History – review historical DNS data
-
-### 🛰️ IP transforms
-
-- IP Information – geolocation and network metadata
-- IP to ASN – map an IP address to its AS number
-
-### 🏢 ASN transforms
-
-- ASN to CIDRs – list allocated IP ranges
-
-### 📡 CIDR transforms
-
-- CIDR to IPs – enumerate hosts in a range
-
-### 📱 Social media transforms
-
-- Maigret – sweep usernames across social platforms
-
-### 🏛️ Organisation transforms
-
-- Organisation to ASN – discover owned ASNs
-- Organisation Information – enrich with company details
-- Organisation to Domains – enumerate related domains
-
-### 💸 Cryptocurrency transforms
-
-- Wallet to Transactions – review transaction history
-- Wallet to NFTs – surface associated NFT assets
-
-### 🌍 Website transforms
-
-- Website Crawler – map site structure
-- Website to Links – extract outbound links
-- Website to Domain – normalise URLs into domains
-- Website to Webtrackers – flag analytics and tracking scripts
-- Website to Text – capture textual content
-
-### ✉️ Email transforms
-
-- Email to Gravatar – pivot into Gravatar profiles
-- Email to Breaches – check breach datasets
-- Email to Domains – list domains tied to an address
-
-### ☎️ Phone transforms
-
-- Phone to Breaches – identify breached numbers
-
-### 🧑‍💼 Individual transforms
-
-- Individual to Organisation – surface affiliations
-- Individual to Domains – enumerate owned domains
-
-### 🔄 Integration transforms
-
-- n8n Connector – wire SpectraGraph into automation workflows
-
----
-
-## 🏗️ Architecture at a glance
-
-SpectraGraph is modular by design, with clear contracts between services:
-
-- **flowsint-core** — orchestration utilities, vault, Celery tasks, and base classes
-- **flowsint-types** — Pydantic models shared across modules
-- **flowsint-transforms** — data collectors and enrichment tooling
-- **flowsint-api** — FastAPI service exposing REST endpoints and authentication
-- **flowsint-app** — React frontend for graph visualization and case management
-
-Dependencies flow in a single direction:
-
-```
-flowsint-app (frontend)
-    ↓
-flowsint-api (API server)
-    ↓
-flowsint-core (orchestrator, tasks, vault)
-    ↓
-flowsint-transforms (transforms & tools)
-    ↓
-flowsint-types (types)
-```
-
----
-
-## 🔄 Development workflow
-
-1. **Add new types** in `flowsint-types`
-2. **Add new transforms** in `flowsint-transforms`
-3. **Expose APIs** in `flowsint-api`
-4. **Extend utilities** in `flowsint-core`
-5. **Update UI** in `flowsint-app`
-
-## ✅ Testing
-
-Each module maintains its own scoped test suite:
+## 🧪 Testing
+Each module has its own pytest suite:
 
 ```bash
-# Test core module
-cd flowsint-core
-poetry run pytest
-
-# Test types module
-cd ../flowsint-types
-poetry run pytest
-
-# Test transforms module
-cd ../flowsint-transforms
-poetry run pytest
-
-# Test API module
-cd ../flowsint-api
-poetry run pytest
+cd spectragraph-core && poetry run pytest
+cd ../spectragraph-transforms && poetry run pytest
+cd ../spectragraph-api && poetry run pytest
 ```
 
----
+### Known Issues
+- Vault tests expect soft-fail behavior; `resolve_params()` currently raises when secrets are missing. Decide whether to revert to logging fallback or update tests to match the stricter behavior.
+- Postgres connection errors occur when Docker is not running.
 
-## 🧑‍🚀 Project steward
+## 🐳 Production Deployment
 
-- **Lead & Maintainer:** sr-857
+```bash
+make prod
+```
 
-For collaboration inquiries, open an issue or reach out directly.
+This brings up FastAPI (uvicorn), a Celery worker, Postgres, Redis, and Neo4j. Alembic migrations run automatically.
 
----
+## 🔐 Ethics & Safety
+SpectraGraph is an OSINT enrichment tool. It:
 
-## ⚖️ Legal & ethical use
+- Does not perform intrusive scanning
+- Requires API keys for sensitive integrations
+- Adheres to responsible-use policies (see `ETHICS.md`)
 
-SpectraGraph is designed **strictly for lawful, ethical investigation and research**. Please read [ETHICS.md](./ETHICS.md) before running any operation.
-
-The project exists to support:
-
-- Cybersecurity researchers and threat intelligence teams
-- Journalists and OSINT investigators
-- Fraud and incident response analysts
-- Organisations performing internal risk assessments
-
-**Do not use SpectraGraph for:**
-
-- Unauthorised surveillance or data collection
-- Harassment, doxxing, or targeting of individuals
-- Disinformation campaigns or privacy violations
-
-Any misuse violates the principles outlined in [ETHICS.md](./ETHICS.md).
-
----
+## 🗺 Roadmap
+- Websocket investigation streams
+- Transform marketplace
+- Entity graph visualizations
+- Rate-limited API gateway
+- Advanced entity linking
 
 ## 📄 License
+AGPL-3.0
 
-Distributed under the [AGPL-3.0 license](./LICENSE).
+## 🙌 Credits
+Built for scalable OSINT investigations, distributed enrichment, and real-time intelligence workflows.

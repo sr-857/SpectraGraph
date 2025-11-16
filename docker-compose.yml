@@ -1,21 +1,21 @@
-name: flowsint
+name: spectragraph
 
 services:
   # PostgreSQL database
   postgres:
     image: postgres:15
-    container_name: flowsint-postgres
+    container_name: spectragraph-postgres
     restart: always
     environment:
-      POSTGRES_USER: flowsint
-      POSTGRES_PASSWORD: flowsint
-      POSTGRES_DB: flowsint
+      POSTGRES_USER: spectragraph
+      POSTGRES_PASSWORD: spectragraph
+      POSTGRES_DB: spectragraph
     ports:
       - "5433:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
-      - flowsint_network
+      - spectragraph_network
       
   # Redis for Celery & cache
   redis:
@@ -24,12 +24,12 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - flowsint_network
+      - spectragraph_network
 
   # Neo4j graph database
   neo4j:
     image: neo4j:5
-    container_name: flowsint-neo4j
+    container_name: spectragraph-neo4j
     ports:
       - "7474:7474"  # Web UI
       - "7687:7687"  # Bolt
@@ -46,28 +46,28 @@ services:
       - neo4j_plugins:/plugins
     restart: unless-stopped
     networks:
-      - flowsint_network
+      - spectragraph_network
 
   app:
     build:
-      context: ./flowsint-app
+      context: ./spectragraph-app
       dockerfile: Dockerfile.dev
-    container_name: flowsint-app
+    container_name: spectragraph-app
     ports:
       - "5173:5173"
     volumes:
-      - ./flowsint-app:/app
+      - ./spectragraph-app:/app
       - app_node_modules:/app/node_modules
     environment:
       - VITE_API_URL=${VITE_API_URL}
     networks:
-      - flowsint_network
+      - spectragraph_network
     stdin_open: true
     tty: true
 
 networks:
-  flowsint_network:
-    name: flowsint_network
+  spectragraph_network:
+    name: spectragraph_network
     driver: bridge
 
 volumes:
