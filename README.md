@@ -47,15 +47,23 @@ SpectraGraph/
 ```
 
 ## 🏗 Architecture
+
+![SpectraGraph Architecture](docs/assets/architecture.svg)
+
+> Diagram: Frontend → API → Core (Orchestrator/Celery) → Transforms → Types.  
+> Datastores: Postgres, Neo4j. Broker: Redis. Vault for secrets. Worker pool executes transforms.
+
+**How judges should test (30–60s):**
+1. Start dev stack: `make dev` (requires Docker).  
+2. Open UI: `http://localhost:3000` (or deployed URL).  
+3. Trigger an investigation for `example.com` or `demo.owasp-juice.shop`.  
+4. Verify: transform results appear, graph links stored in Neo4j, HTML report downloadable.
+
 SpectraGraph is structured to enforce clean dependency boundaries:
 
 **Frontend → API → Core → Transforms → Types**
 
 This prevents cycles and keeps the system modular.
-
-![SpectraGraph Architecture](docs/assets/architecture.svg)
-
-> Diagram: frontend → API → core → transforms → types with Postgres, Neo4j, Redis, Vault, and Celery worker pool.
 
 ### 🔹 Frontend (`spectragraph-app/`)
 - Vite + React
