@@ -83,18 +83,26 @@ This prevents cycles and keeps the system modular.
 - Consumed across API, core, and transforms
 
 ```mermaid
-graph LR
-  FE[Frontend] -- WS / REST --> API[API (FastAPI)]
-  API --> CORE[Core (Orchestrator / Celery)]
-  CORE --> TRANS[Transforms (OSINT Enrichers)]
-  TRANS --> TYPES[Types (Pydantic Models)]
-  CORE -- writes --> PG[(Postgres)]
-  CORE -- writes --> NEO[(Neo4j)]
-  CORE -- uses --> REDIS[(Redis / Celery Broker)]
-  API -- reads --> PG
-  API -- reads --> NEO
-  API -- enqueues --> REDIS
-  FE --- API
+flowchart LR
+  FE[Frontend]
+  API[API (FastAPI)]
+  CORE[Core (Orchestrator / Celery)]
+  TRANS[Transforms (OSINT Enrichers)]
+  TYPES[Types (Pydantic Models)]
+  PG[(Postgres)]
+  NEO[(Neo4j)]
+  REDIS[(Redis / Celery Broker)]
+
+  FE --> API
+  API --> CORE
+  CORE --> TRANS
+  TRANS --> TYPES
+  CORE --> PG
+  CORE --> NEO
+  CORE --> REDIS
+  API --> PG
+  API --> NEO
+  API --> REDIS
 ```
 
 ## 🔄 Data Flow
