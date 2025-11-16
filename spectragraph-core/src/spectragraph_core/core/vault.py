@@ -7,6 +7,7 @@ from sqlalchemy import select
 from .models import Key
 from datetime import datetime
 import base64
+import binascii
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -40,7 +41,10 @@ class Vault(VaultProtocol):
         if raw.startswith("base64:"):
             raw = raw[7:]
 
-        key = base64.b64decode(raw)
+        try:
+            key = base64.b64decode(raw, validate=True)
+        except binascii.Error:
+            raise ValueError("Master key must be 32 bytes (256 bits)")
         if len(key) != 32:
             raise ValueError("Master key must be 32 bytes (256 bits)")
         return key

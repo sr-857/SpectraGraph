@@ -120,7 +120,7 @@ class Transform(ABC):
         self.sketch_id = sketch_id or "system"
         self.neo4j_conn = neo4j_conn  # Kept for backward compatibility
         self.vault = vault
-        self.params_schema = params_schema or []
+        self.params_schema = params_schema or self.get_params_schema()
         self.ParamsModel = build_params_model(self.params_schema)
         self.params: Dict[str, Any] = params or {}
 
@@ -166,19 +166,37 @@ class Transform(ABC):
                 # For vault secrets, try to get from vault by name or ID
                 secret = None
                 if self.vault is not None:
-                    # First, check if user provided a specific vault ID in params
-                    if param_name in self.params and self.params[param_name]:
-                        secret = self.vault.get_secret(self.params[param_name])
-                    # Otherwise, try to get the secret by the param name itself
-                    if secret is None:
-                        secret = self.vault.get_secret(param_name)
+                    should_lookup = True
+                    if (
+                        not param.get("required", False)
+                        and param.get("default") is not None
+                        and param_name not in self.params
+                    ):
+                        should_lookup = False
+
+                    if should_lookup:
+                        # First, check if user provided a specific vault ID in params
+                        if param_name in self.params and self.params[param_name]:
+                            secret = self.vault.get_secret(self.params[param_name])
+                        # Otherwise, try to get the secret by the param name itself
+                        if secret is None:
+                            secret = self.vault.get_secret(param_name)
 
                     if secret is not None:
                         resolved[param_name] = secret
                     elif param.get("required", False):
-                        raise Exception(
-                            f"Required vault secret '{param_name}' is missing. Please go to the Vault settings and create a '{param_name}' key."
+                        Logger.error(
+                            self.sketch_id,
+                            {
+                                "event": "vault_secret_missing",
+                                "transform": self.name(),
+                                "param": param_name,
+                                "message": (
+                                    f"Required vault secret '{param_name}' is missing. Please go to the Vault settings and create a '{param_name}' key."
+                                ),
+                            },
                         )
+                        continue
 
                 # If no vault or no secret found, use default if available
                 if param_name not in resolved and param.get("default") is not None:
