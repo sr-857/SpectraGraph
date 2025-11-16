@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "spectragraph"
+version = "0.1.0"
+description = "SpectraGraph multi-module project"
+authors = ["sr-857 <sr-857@users.noreply.github.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12,<4.0"
+flowsint-core = { path = "./flowsint-core", develop = true }
+flowsint-types = { path = "./flowsint-types", develop = true }
+flowsint-transforms = { path = "./flowsint-transforms", develop = true }
+flowsint-api = { path = "./flowsint-api", develop = true }
+pydantic = {extras = ["email"], version = "^2.11.7"}
+python-multipart = "^0.0.20"
+docker = "^7.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
