@@ -15,6 +15,14 @@
     body:after{content:"";position:fixed;inset:-40%;background:radial-gradient(circle at center,rgba(111,85,255,.18),transparent 55%);filter:blur(120px);opacity:.6;pointer-events:none;animation:pulseBloom 18s ease-in-out infinite}
     @keyframes gridFloat{from{transform:translate3d(0,0,0)}to{transform:translate3d(-120px,-90px,0)}}
     @keyframes pulseBloom{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.75;transform:scale(1.12)}}
+    .background-aurora{position:fixed;inset:-18%;pointer-events:none;z-index:0;overflow:hidden}
+    .background-aurora .aurora{position:absolute;width:42vw;height:42vw;border-radius:50%;filter:blur(140px);opacity:.48;mix-blend-mode:screen;animation:auroraFloat 32s ease-in-out infinite}
+    .background-aurora .aurora:nth-child(2){animation-duration:36s}
+    .background-aurora .aurora:nth-child(3){animation-duration:40s}
+    .background-aurora .aurora.blue{background:radial-gradient(circle at center,rgba(63,140,255,.6),transparent 62%);top:4%;left:-6%}
+    .background-aurora .aurora.pink{background:radial-gradient(circle at center,rgba(255,95,141,.55),transparent 65%);bottom:-8%;left:24%}
+    .background-aurora .aurora.teal{background:radial-gradient(circle at center,rgba(62,248,201,.5),transparent 64%);top:18%;right:-10%}
+    @keyframes auroraFloat{0%{transform:translate3d(-6%,0,0) scale(1)}45%{transform:translate3d(4%,6%,0) scale(1.08);opacity:.6}70%{transform:translate3d(2%,-4%,0) scale(.96);opacity:.42}100%{transform:translate3d(-6%,2%,0) scale(1)}}
     main{width:min(1600px,96vw);display:grid;gap:1.8rem;position:relative;z-index:1;animation:fadeIn .8s ease forwards;opacity:0}
     @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
     h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:.08em}
@@ -161,6 +169,11 @@
   </style>
 </head>
 <body>
+<div class="background-aurora" aria-hidden="true">
+  <span class="aurora blue"></span>
+  <span class="aurora pink"></span>
+  <span class="aurora teal"></span>
+</div>
 <main>
   <header class="glass topbar">
     <div class="brand">
