@@ -69,6 +69,10 @@
     .primary-btn:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,.45),transparent 52%);opacity:0;transition:opacity .3s ease}
     .primary-btn:hover{transform:translateY(-2px);box-shadow:0 28px 48px rgba(64,152,255,.46)}
     .primary-btn:hover:after{opacity:.25}
+    .option-group{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.6rem}
+    .option-chip{padding:.45rem 1rem;border-radius:999px;border:1px solid rgba(90,112,184,.35);background:rgba(14,22,38,.78);color:var(--muted);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,color .25s ease}
+    .option-chip:hover{transform:translateY(-2px);border-color:rgba(111,205,255,.45);box-shadow:0 10px 22px rgba(40,90,160,.35);color:var(--text)}
+    .option-chip.active{background:linear-gradient(120deg,var(--accent),#6fe0ff);color:#041022;border-color:rgba(111,205,255,.65);box-shadow:0 14px 28px rgba(64,152,255,.45)}
     .table-list{display:grid;gap:.95rem}
     .table-row{display:grid;grid-template-columns:1.2fr 1fr auto;gap:1rem;align-items:center;padding:.85rem 1rem;border-radius:15px;background:rgba(12,18,34,.9);border:1px solid rgba(98,122,188,.24);font-size:.87rem}
     .table-row strong{font-weight:600;color:var(--text)}
@@ -109,6 +113,19 @@
     .dot-small.pink{background:#ff5f8d;color:rgba(255,95,141,.7)}
     .dot-small.teal{background:#39ffd5;color:rgba(57,255,213,.7)}
     .footer{text-align:right;font-size:.75rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+    .stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.6rem}
+    .playbook-list{display:grid;gap:1rem;margin-top:.8rem}
+    .playbook{padding:1rem 1.1rem;border-radius:16px;background:rgba(14,21,36,.86);border:1px solid rgba(98,122,188,.24);display:grid;gap:.45rem;position:relative;overflow:hidden}
+    .playbook:after{content:"";position:absolute;inset:-50% 50% -30% -20%;background:radial-gradient(circle,rgba(255,95,141,.18),transparent 62%);opacity:.5;mix-blend-mode:screen}
+    .playbook strong{font-size:1rem;color:var(--text)}
+    .playbook span{font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+    .tag-row{display:flex;flex-wrap:wrap;gap:.55rem}
+    .tag{padding:.3rem .75rem;border-radius:999px;border:1px solid rgba(90,112,184,.32);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:rgba(10,18,32,.82)}
+    .integration-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-top:1rem}
+    .integration{padding:1rem;border-radius:16px;border:1px solid rgba(98,122,188,.22);background:rgba(14,21,36,.86);display:grid;gap:.5rem;align-items:flex-start;transition:transform .3s ease,box-shadow .3s ease}
+    .integration:hover{transform:translateY(-4px);box-shadow:0 22px 40px rgba(24,52,120,.4)}
+    .integration h3{margin:0;font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text)}
+    .integration p{margin:0;font-size:.82rem;color:var(--muted);line-height:1.5}
     @media(max-width:1080px){.grid-two{grid-template-columns:1fr}.column{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
     @media(max-width:760px){body{padding:1.6rem}.topbar{flex-direction:column;align-items:flex-start;gap:1.1rem}.table-row{grid-template-columns:1fr}.donut-card{grid-template-columns:1fr}.timeline-row{grid-template-columns:1fr}}
   </style>
@@ -186,10 +203,31 @@
           <div class="field">
             <label for="target">Target</label>
             <div class="input-shell">domain.com <span>domain</span></div>
+            <div class="option-group" role="list">
+              <span class="option-chip active" role="listitem">domain.com</span>
+              <span class="option-chip" role="listitem">example.net</span>
+              <span class="option-chip" role="listitem">alpha.io</span>
+              <span class="option-chip" role="listitem">threat.labs</span>
+            </div>
           </div>
           <div class="field">
             <label for="transform">Transform</label>
             <div class="input-shell">Domain to Breach <span>transform</span></div>
+            <div class="option-group" role="list">
+              <span class="option-chip active" role="listitem">Domain → Breach</span>
+              <span class="option-chip" role="listitem">Email → Social</span>
+              <span class="option-chip" role="listitem">IP → Location</span>
+              <span class="option-chip" role="listitem">SSL → Intel</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="depth">Scan Mode</label>
+            <div class="option-group" role="list">
+              <span class="option-chip active" role="listitem">Rapid</span>
+              <span class="option-chip" role="listitem">Balanced</span>
+              <span class="option-chip" role="listitem">Deep</span>
+              <span class="option-chip" role="listitem">Custom</span>
+            </div>
           </div>
         </div>
         <button class="primary-btn" type="button">Run Investigation</button>
@@ -261,6 +299,63 @@
         <div class="timeline-row"><div class="dots"><span class="dot-small blue"></span><span>16:45</span></div><div>Command & control IP handed off to takedown</div></div>
       </article>
     </div>
+  </section>
+
+  <section class="stack">
+    <article class="card">
+      <h2>Active Playbooks</h2>
+      <div class="playbook-list">
+        <div class="playbook">
+          <strong>Ransomware Perimeter Hardening</strong>
+          <span>Triggered · 4m ago</span>
+          <div class="tag-row">
+            <span class="tag">EDR</span>
+            <span class="tag">Firewall</span>
+            <span class="tag">SIEM</span>
+          </div>
+        </div>
+        <div class="playbook">
+          <strong>Dark Web Credential Sweep</strong>
+          <span>Queued · 12m</span>
+          <div class="tag-row">
+            <span class="tag">Tor</span>
+            <span class="tag">Pastebin</span>
+            <span class="tag">AI OCR</span>
+          </div>
+        </div>
+        <div class="playbook">
+          <strong>Brand Abuse Hunt</strong>
+          <span>Completed · 27m</span>
+          <div class="tag-row">
+            <span class="tag">Social</span>
+            <span class="tag">Trademark</span>
+            <span class="tag">ML Classifier</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>Integrations</h2>
+      <div class="integration-grid">
+        <div class="integration">
+          <h3>Rest API</h3>
+          <p>Push incidents to ServiceNow and sync downstream workflows automatically.</p>
+        </div>
+        <div class="integration">
+          <h3>Slack Fusion</h3>
+          <p>Stream enriched IOCs into analyst war rooms with actionable summaries.</p>
+        </div>
+        <div class="integration">
+          <h3>Jupiter Notebook</h3>
+          <p>Export graph snapshots into notebooks for rapid hypothesis testing.</p>
+        </div>
+        <div class="integration">
+          <h3>SIEM Bridge</h3>
+          <p>Correlate OSINT signals with internal telemetry to close the loop.</p>
+        </div>
+      </div>
+    </article>
   </section>
 
   <footer class="footer">SpectraGraph · Distributed OSINT Intelligence Platform</footer>
