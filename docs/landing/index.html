@@ -65,7 +65,8 @@
     .card h2{margin:0;font-size:.96rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
     .field-group{display:grid;gap:1rem}
     .field{display:flex;flex-direction:column;gap:.45rem;font-size:.84rem;color:var(--muted)}
-    .input-shell{border-radius:12px;border:1px solid rgba(90,112,184,.34);background:rgba(10,14,24,.82);padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--text)}
+    .input-shell{border-radius:12px;border:1px solid rgba(90,112,184,.34);background:rgba(10,14,24,.82);padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--text);gap:.8rem}
+    .input-shell .value{font-size:1rem;letter-spacing:.05em}
     .input-shell span{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
     .primary-btn{padding:.9rem 2.4rem;border-radius:12px;border:none;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(118deg,var(--accent),#68d8ff);color:#071325;box-shadow:0 24px 40px rgba(64,152,255,.38);cursor:pointer;position:relative;overflow:hidden}
     .primary-btn:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,.45),transparent 52%);opacity:0;transition:opacity .3s ease}
@@ -76,6 +77,8 @@
     .option-chip:hover{transform:translateY(-2px);border-color:rgba(111,205,255,.45);box-shadow:0 10px 22px rgba(40,90,160,.35);color:var(--text)}
     .option-chip.active{background:linear-gradient(120deg,var(--accent),#6fe0ff);color:#041022;border-color:rgba(111,205,255,.65);box-shadow:0 14px 28px rgba(64,152,255,.45);animation:pulseChip 4s ease-in-out infinite}
     @keyframes pulseChip{0%,100%{box-shadow:0 14px 28px rgba(64,152,255,.45)}50%{box-shadow:0 20px 36px rgba(111,205,255,.55)}}
+    .selection-meta{display:flex;align-items:center;gap:.75rem;margin-top:.9rem;font-size:.82rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+    .selection-meta span{color:var(--text);font-size:.88rem;letter-spacing:.05em}
     .table-list{display:grid;gap:.95rem}
     .table-row{display:grid;grid-template-columns:1.2fr 1fr auto;gap:1rem;align-items:center;padding:.85rem 1rem;border-radius:15px;background:rgba(12,18,34,.9);border:1px solid rgba(98,122,188,.24);font-size:.87rem;transition:transform .25s ease,background .25s ease}
     .table-row:hover{transform:translateX(4px);background:rgba(26,40,72,.92)}
@@ -134,6 +137,8 @@
     .integration:hover{transform:translateY(-4px);box-shadow:0 22px 40px rgba(24,52,120,.4);border-color:rgba(111,205,255,.4)}
     .integration h3{margin:0;font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text)}
     .integration p{margin:0;font-size:.82rem;color:var(--muted);line-height:1.5}
+    .toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%) translateY(40px);padding:.85rem 1.4rem;border-radius:999px;background:rgba(20,40,78,.9);border:1px solid rgba(111,205,255,.45);color:var(--text);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 18px 38px rgba(26,52,110,.45);opacity:0;transition:opacity .4s ease,transform .4s ease;z-index:10}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     @media(max-width:1080px){.grid-two{grid-template-columns:1fr}.column{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
     @media(max-width:760px){body{padding:1.6rem}.topbar{flex-direction:column;align-items:flex-start;gap:1.1rem}.table-row{grid-template-columns:1fr}.donut-card{grid-template-columns:1fr}.timeline-row{grid-template-columns:1fr}}
   </style>
@@ -210,35 +215,40 @@
         <div class="field-group">
           <div class="field">
             <label for="target">Target</label>
-            <div class="input-shell">domain.com <span>domain</span></div>
-            <div class="option-group" role="list">
-              <span class="option-chip active" role="listitem">domain.com</span>
-              <span class="option-chip" role="listitem">example.net</span>
-              <span class="option-chip" role="listitem">alpha.io</span>
-              <span class="option-chip" role="listitem">threat.labs</span>
+            <div class="input-shell"><span class="value" id="target-value">domain.com</span><span id="target-badge">domain</span></div>
+            <div class="option-group" data-quick-group="target" role="list">
+              <button type="button" class="option-chip active" data-value="domain.com" data-badge="domain" role="listitem">domain.com</button>
+              <button type="button" class="option-chip" data-value="example.net" data-badge="domain" role="listitem">example.net</button>
+              <button type="button" class="option-chip" data-value="alpha.io" data-badge="domain" role="listitem">alpha.io</button>
+              <button type="button" class="option-chip" data-value="threat.labs" data-badge="domain" role="listitem">threat.labs</button>
             </div>
           </div>
           <div class="field">
             <label for="transform">Transform</label>
-            <div class="input-shell">Domain to Breach <span>transform</span></div>
-            <div class="option-group" role="list">
-              <span class="option-chip active" role="listitem">Domain → Breach</span>
-              <span class="option-chip" role="listitem">Email → Social</span>
-              <span class="option-chip" role="listitem">IP → Location</span>
-              <span class="option-chip" role="listitem">SSL → Intel</span>
+            <div class="input-shell"><span class="value" id="transform-value">Domain → Breach</span><span id="transform-badge">workflow</span></div>
+            <div class="option-group" data-quick-group="transform" role="list">
+              <button type="button" class="option-chip active" data-value="Domain → Breach" data-badge="workflow" role="listitem">Domain → Breach</button>
+              <button type="button" class="option-chip" data-value="Email → Social" data-badge="persona" role="listitem">Email → Social</button>
+              <button type="button" class="option-chip" data-value="IP → Location" data-badge="geo" role="listitem">IP → Location</button>
+              <button type="button" class="option-chip" data-value="SSL → Intel" data-badge="cert" role="listitem">SSL → Intel</button>
             </div>
           </div>
           <div class="field">
             <label for="depth">Scan Mode</label>
-            <div class="option-group" role="list">
-              <span class="option-chip active" role="listitem">Rapid</span>
-              <span class="option-chip" role="listitem">Balanced</span>
-              <span class="option-chip" role="listitem">Deep</span>
-              <span class="option-chip" role="listitem">Custom</span>
+            <div class="option-group" data-quick-group="mode" role="list">
+              <button type="button" class="option-chip active" data-value="Rapid" role="listitem">Rapid</button>
+              <button type="button" class="option-chip" data-value="Balanced" role="listitem">Balanced</button>
+              <button type="button" class="option-chip" data-value="Deep" role="listitem">Deep</button>
+              <button type="button" class="option-chip" data-value="Custom" role="listitem">Custom</button>
             </div>
           </div>
         </div>
-        <button class="primary-btn" type="button">Run Investigation</button>
+        <div class="selection-meta" aria-live="polite">
+          <div>Target <span id="target-label">domain.com</span></div>
+          <div>Transform <span id="transform-label">Domain → Breach</span></div>
+          <div>Mode <span id="mode-label">Rapid</span></div>
+        </div>
+        <button class="primary-btn" id="run-investigation" type="button">Run Investigation</button>
       </article>
 
       <article class="card">
@@ -368,5 +378,71 @@
 
   <footer class="footer">SpectraGraph · Distributed OSINT Intelligence Platform</footer>
 </main>
+<div class="toast" id="toast" role="status" aria-live="assertive"></div>
+<script>
+  const selections = {
+    target: { value: 'domain.com', badge: 'domain' },
+    transform: { value: 'Domain → Breach', badge: 'workflow' },
+    mode: { value: 'Rapid' }
+  };
+
+  const groups = document.querySelectorAll('[data-quick-group]');
+  const targetValueEl = document.getElementById('target-value');
+  const targetBadgeEl = document.getElementById('target-badge');
+  const transformValueEl = document.getElementById('transform-value');
+  const transformBadgeEl = document.getElementById('transform-badge');
+  const targetLabelEl = document.getElementById('target-label');
+  const transformLabelEl = document.getElementById('transform-label');
+  const modeLabelEl = document.getElementById('mode-label');
+  const runBtn = document.getElementById('run-investigation');
+  const toast = document.getElementById('toast');
+
+  function updateDisplay() {
+    targetValueEl.textContent = selections.target.value;
+    targetBadgeEl.textContent = selections.target.badge;
+    targetLabelEl.textContent = selections.target.value;
+
+    transformValueEl.textContent = selections.transform.value;
+    transformBadgeEl.textContent = selections.transform.badge;
+    transformLabelEl.textContent = selections.transform.value;
+
+    modeLabelEl.textContent = selections.mode.value;
+  }
+
+  function activateChip(chip) {
+    const group = chip.closest('[data-quick-group]');
+    if (!group) return;
+    group.querySelectorAll('.option-chip').forEach(btn => btn.classList.remove('active'));
+    chip.classList.add('active');
+
+    const key = group.getAttribute('data-quick-group');
+    selections[key] = selections[key] || {};
+    selections[key].value = chip.dataset.value;
+    if (chip.dataset.badge) {
+      selections[key].badge = chip.dataset.badge;
+    }
+    updateDisplay();
+  }
+
+  groups.forEach(group => {
+    group.addEventListener('click', event => {
+      const chip = event.target.closest('.option-chip');
+      if (!chip) return;
+      activateChip(chip);
+    });
+  });
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
+  runBtn.addEventListener('click', () => {
+    showToast(`Launching ${selections.mode.value} scan on ${selections.target.value} via ${selections.transform.value}`);
+  });
+
+  updateDisplay();
+</script>
 </body>
 </html>
