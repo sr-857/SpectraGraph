@@ -136,7 +136,7 @@ API  → Postgres / Neo4j / Redis for reads & task enqueueing
 
 ## 📸 Preview
 
-![SpectraGraph dashboard](docs/assets/screenshots/dashboard.png)
+![SpectraGraph dashboard](<img width="1536" height="1024" alt="ChatGPT Image Nov 19, 2025, 12_19_51 PM" src="https://github.com/user-attachments/assets/23b85980-8160-40ec-8c9b-5feb04c6c197" />)
 
 > Dashboard layout showing timeline widgets, trend cards, and investigation queue.
 
