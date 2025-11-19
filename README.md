@@ -21,7 +21,7 @@ SpectraGraph empowers analysts, journalists, and incident responders to map rela
 
 ## 🚀 Live Demo
 
-A complete visual walkthrough of SpectraGraph, including cyberpunk-themed screenshots, system architecture, and investigation flow, is available here: [Live Demo](https://github.com/sr-857/SpectraGraph#live-demo)
+A complete visual walkthrough of SpectraGraph, including cyberpunk-themed screenshots, system architecture, and investigation flow, is available here: [Live Demo](https://sr-857.github.io/SpectraGraph/landing/)
 
 This demo showcases:
 
