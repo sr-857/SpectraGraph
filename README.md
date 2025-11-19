@@ -15,9 +15,24 @@ SpectraGraph empowers analysts, journalists, and incident responders to map rela
 
 ## 📸 Preview
 
-![SpectraGraph dashboard](docs/assets/screenshots/dashboard.png)
+![SpectraGraph dashboard](docs/assets/screenshots/dashboard-hero.png)
 
 > Dashboard preview with quick investigation launcher, transform metrics, source breakdown, and breach timeline.
+
+## 🚀 Live Demo
+
+A complete visual walkthrough of SpectraGraph, including cyberpunk-themed screenshots, system architecture, and investigation flow, is available here: [Live Demo](https://github.com/sr-857/SpectraGraph#live-demo)
+
+This demo showcases:
+
+- Cyberpunk dashboard screenshots
+- OSINT investigation activity
+- Architecture diagram (API → Core → Transforms → Neo4j)
+- Entity pipeline overview
+- Sample investigation flow
+- GIF-style UI mockups highlighting the SpectraGraph experience
+
+> Tip: You can also run the project locally via Docker/Makefile for the full interactive experience.
 
 ## 🚀 Overview
 SpectraGraph is a modular OSINT enrichment platform built as a production‑grade distributed system, designed for scalable intelligence gathering. It uses a layered architecture—frontend → API → orchestration core → transforms → shared types—and integrates Postgres, Redis, and Neo4j through a Celery‑based workflow engine.
