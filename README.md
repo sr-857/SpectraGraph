@@ -134,6 +134,12 @@ API  → Postgres / Neo4j / Redis for reads & task enqueueing
 | 🗄️ Storage Layer | Postgres · Neo4j | Persist entities, relationships, audit logs | Read by API/Core, visualized in UI |
 | ⚡ Messaging | Redis | Task queue + cache for hot entities | Backed by Celery + API prefetch |
 
+## 📸 Preview
+
+![SpectraGraph dashboard](docs/assets/screenshots/dashboard.png)
+
+> Dashboard layout showing timeline widgets, trend cards, and investigation queue.
+
 **Mission pipeline**
 
 1. 🧑‍💻 Analyst triggers scan from the UI.
@@ -150,6 +156,25 @@ API  → Postgres / Neo4j / Redis for reads & task enqueueing
 4. Transform executes enrichment logic
 5. Results persist to Postgres / Neo4j
 6. API returns intelligence to the UI
+
+## ⚙️ Setup
+1. Clone the repository and enter the workspace.
+2. Copy the sample environment file: `cp .env.example .env`.
+3. Update secrets and connection strings before running services.
+
+### Required environment variables
+
+| Variable | Purpose | Example |
+| --- | --- | --- |
+| `NODE_ENV` | Sets frontend build mode | `development` |
+| `MASTER_VAULT_KEY_V1` | 32-byte base64 key for vault encryption | `base64:qnHTmwYb...` |
+| `DATABASE_URL` | Postgres DSN for API and workers | `postgresql://spectragraph:spectragraph@localhost:5433/spectragraph` |
+| `NEO4J_URI_BOLT` | Neo4j connection string | `bolt://neo4j:7687` |
+| `NEO4J_USERNAME` / `NEO4J_PASSWORD` | Neo4j credentials | `neo4j` / `password` |
+| `REDIS_URL` | Celery broker / cache endpoint | `redis://redis:6379/0` |
+| `VITE_API_URL` | Frontend → API base URL | `http://127.0.0.1:5001` |
+
+> Tip: regenerate `MASTER_VAULT_KEY_V1` via `python -c "import os, base64; print('base64:' + base64.b64encode(os.urandom(32)).decode())"` for production deployments.
 
 ## 🛠 Development Workflow
 
@@ -172,6 +197,13 @@ make dev
 ```
 
 Docker is required. On systems without Docker, install Docker CLI or Podman with Docker compatibility.
+
+## 🔗 Demo Checklist
+- Start the full stack: `make dev` (brings up Postgres, Redis, Neo4j, API, worker, frontend).
+- Open the UI at `http://localhost:3000` (or your deployed URL) and log in if required.
+- Launch an investigation for `example.com` or `demo.owasp-juice.shop`.
+- Confirm results populate the dashboard, graph links land in Neo4j, and the HTML report is downloadable.
+- Review `docs/HACKATHON_BOOTSTRAP.md` for the end-to-end judge script and troubleshooting tips.
 
 ## 🧪 Testing
 Each module has its own pytest suite:
