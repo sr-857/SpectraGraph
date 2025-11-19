@@ -17,7 +17,7 @@ SpectraGraph empowers analysts, journalists, and incident responders to map rela
 
 ![SpectraGraph dashboard](docs/assets/screenshots/dashboard.png)
 
-> Dashboard layout showing timeline widgets, trend cards, and investigation queue.
+> Dashboard preview with quick investigation launcher, transform metrics, source breakdown, and breach timeline.
 
 ## 🚀 Overview
 SpectraGraph is a modular OSINT enrichment platform built as a production‑grade distributed system, designed for scalable intelligence gathering. It uses a layered architecture—frontend → API → orchestration core → transforms → shared types—and integrates Postgres, Redis, and Neo4j through a Celery‑based workflow engine.
