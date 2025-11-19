@@ -32,7 +32,20 @@ This demo showcases:
 - Sample investigation flow
 - GIF-style UI mockups highlighting the SpectraGraph experience
 
-> Tip: You can also run the project locally via Docker/Makefile for the full interactive experience.
+<div align="center">
+  <img src="docs/assets/screenshots/dashboard-hero.png" alt="SpectraGraph dashboard" width="48%" />
+  <img src="docs/assets/architecture.svg" alt="SpectraGraph architecture" width="48%" />
+</div>
+
+**Run it yourself (local demo):**
+
+```bash
+cp .env.example .env          # populate secrets
+make dev                      # launches Postgres, Neo4j, Redis, API, worker, frontend
+open http://localhost:3000    # explore the SpectraGraph UI
+```
+
+> Tip: Stop the stack with `make down` when you're finished.
 
 ## 🚀 Overview
 SpectraGraph is a modular OSINT enrichment platform built as a production‑grade distributed system, designed for scalable intelligence gathering. It uses a layered architecture—frontend → API → orchestration core → transforms → shared types—and integrates Postgres, Redis, and Neo4j through a Celery‑based workflow engine.
