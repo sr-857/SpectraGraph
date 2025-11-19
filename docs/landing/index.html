@@ -95,32 +95,45 @@
     .map-dot.red{background:#ff526d;color:rgba(255,82,109,.8);top:38%;left:56%}
     .map-dot.teal{background:#3ef8c9;color:rgba(62,248,201,.8);top:54%;left:61%}
     .map-dot.gold{background:#ffcf5a;color:rgba(255,207,90,.75);top:66%;left:78%}
-    .stats-grid{display:grid;gap:1.1rem}
-    .stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.1rem}
-    .metric{padding:1.1rem 1.2rem;border-radius:16px;background:rgba(14,21,36,.9);border:1px solid rgba(98,122,188,.24);display:grid;gap:.5rem}
-    .metric h3{margin:0;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-    .metric strong{font-size:1.7rem}
-    .metric span{color:var(--accent);font-size:.8rem}
-    .chart{padding:1.2rem;border-radius:16px;background:rgba(14,21,36,.9);border:1px solid rgba(98,122,188,.24);display:grid;gap:1rem}
-    .chart-head{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted)}
-    .bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.6rem;align-items:flex-end;height:110px}
-    .bar{border-radius:8px;background:linear-gradient(180deg,rgba(63,139,255,.75),rgba(26,60,110,.2));height:40%;animation:barPulse 4.5s ease-in-out infinite alternate}
-    .bar.alt{background:linear-gradient(180deg,rgba(117,86,255,.74),rgba(26,40,120,.2));animation-delay:1.1s}
-    .chart:hover .bar{animation-duration:3.5s}
-    @keyframes barPulse{0%{transform:scaleY(.85);opacity:.6}50%{transform:scaleY(1.08);opacity:1}100%{transform:scaleY(.9);opacity:.75}}
-    .chart-foot{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
-    .donut-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem;align-items:center;padding:1.2rem;border-radius:16px;background:rgba(14,21,36,.9);border:1px solid rgba(98,122,188,.24)}
-    .donut{width:136px;height:136px;border-radius:50%;background:conic-gradient(#3d9bff 0 90deg,#57ffcc 90deg 180deg,#ff5f8d 180deg 260deg,#ffca63 260deg 310deg,#8e7bff 310deg 360deg);display:grid;place-items:center;position:relative;animation:slowSpin 18s linear infinite}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.1rem}
+    .metric{position:relative;padding:1.2rem;border-radius:18px;background:linear-gradient(160deg,rgba(15,22,40,.95),rgba(10,14,26,.92));border:1px solid rgba(98,122,188,.24);box-shadow:0 20px 44px rgba(8,14,24,.55);display:grid;gap:.55rem;overflow:hidden}
+    .metric h3{margin:0;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(205,218,245,.78)}
+    .metric strong{font-size:1.65rem;font-weight:600}
+    .metric span{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--accent)}
+    .metric span svg{width:14px;height:14px;fill:var(--accent)}
+    .spark{position:absolute;right:12px;bottom:10px;width:80px;height:34px;opacity:.75}
+    .spark path{fill:none;stroke:rgba(111,205,255,.55);stroke-width:2;stroke-linecap:round}
+    .spark.area{opacity:.35}
+    .chart{padding:1.2rem 1.3rem;border-radius:18px;background:linear-gradient(160deg,rgba(15,22,40,.95),rgba(10,14,26,.92));border:1px solid rgba(98,122,188,.24);display:grid;gap:1rem;box-shadow:0 20px 44px rgba(8,14,24,.5)}
+    .chart-head{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+    .bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.75rem;align-items:flex-end;height:132px}
+    .bar{border-radius:8px;background:linear-gradient(180deg,rgba(63,139,255,.78),rgba(26,60,110,.18));height:40%;animation:barPulse 4.5s ease-in-out infinite alternate}
+    .bar.alt{background:linear-gradient(180deg,rgba(176,115,255,.8),rgba(48,32,110,.18));animation-delay:1.1s}
+    .chart:hover .bar{animation-duration:3.2s}
+    @keyframes barPulse{0%{transform:scaleY(.85);opacity:.65}50%{transform:scaleY(1.08);opacity:1}100%{transform:scaleY(.9);opacity:.8}}
+    .chart-foot{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+    .donut-card{display:grid;grid-template-columns:minmax(0,160px) minmax(0,1fr);gap:1.5rem;align-items:center;padding:1.3rem 1.4rem;border-radius:18px;background:linear-gradient(160deg,rgba(15,22,40,.95),rgba(10,14,26,.92));border:1px solid rgba(98,122,188,.24);box-shadow:0 20px 44px rgba(8,14,24,.5)}
+    .donut{width:140px;height:140px;border-radius:50%;background:conic-gradient(#3d9bff 0 90deg,#57ffcc 90deg 180deg,#ff5f8d 180deg 260deg,#ffca63 260deg 310deg,#8e7bff 310deg 360deg);display:grid;place-items:center;position:relative;animation:slowSpin 18s linear infinite}
     .donut-card:hover .donut{animation-duration:10s}
-    .donut:after{content:'25%';position:absolute;width:92px;height:92px;border-radius:50%;background:rgba(12,18,34,.88);display:grid;place-items:center;font-weight:600;letter-spacing:.08em}
+    .donut:after{content:'25%';position:absolute;width:94px;height:94px;border-radius:50%;background:rgba(12,18,34,.9);display:grid;place-items:center;font-weight:600;letter-spacing:.08em}
     @keyframes slowSpin{to{transform:rotate(360deg)}}
-    .legend{display:grid;gap:.75rem;font-size:.82rem;color:var(--muted)}
-    .legend strong{color:var(--text)}
-    .timeline{display:grid;gap:1rem;margin-top:.8rem}
-    .timeline-row{display:grid;grid-template-columns:.9fr 2fr;gap:1.2rem;align-items:center;padding:.85rem 1.05rem;border-radius:14px;background:rgba(12,18,34,.9);border:1px solid rgba(98,122,188,.24);font-size:.86rem;color:var(--muted);transition:transform .3s ease,background .3s ease}
+    .legend{display:grid;gap:.55rem;font-size:.82rem;color:var(--muted)}
+    .legend-line{display:flex;align-items:center;justify-content:space-between;gap:1.1rem}
+    .legend-left{display:flex;align-items:center;gap:.6rem}
+    .legend-dot{width:10px;height:10px;border-radius:50%;box-shadow:0 0 10px currentColor}
+    .legend-dot.blue{background:#3d9bff;color:#3d9bff}
+    .legend-dot.magenta{background:#ff5f8d;color:#ff5f8d}
+    .legend-dot.teal{background:#57ffcc;color:#57ffcc}
+    .legend-dot.gold{background:#ffca63;color:#ffca63}
+    .legend-dot.violet{background:#8e7bff;color:#8e7bff}
+    .timeline{display:grid;gap:.85rem;margin-top:.6rem;position:relative}
+    .timeline-row{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:1.2rem;padding:.85rem 1.1rem;border-radius:14px;background:linear-gradient(180deg,rgba(14,21,36,.92),rgba(10,14,26,.9));border:1px solid rgba(98,122,188,.24);font-size:.86rem;color:var(--muted);transition:transform .3s ease,background .3s ease}
     .timeline-row:hover{transform:translateX(6px);background:rgba(31,44,86,.92)}
-    .dots{display:flex;gap:.55rem;align-items:center}
-    .dot-small{width:9px;height:9px;border-radius:50%;box-shadow:0 0 10px currentColor}
+    .timeline-time{display:flex;align-items:center;gap:.6rem;font-family:'Space Grotesk',sans-serif;color:var(--text);letter-spacing:.12em;text-transform:uppercase}
+    .dots{position:relative;display:flex;align-items:center;justify-content:center;padding-right:.4rem}
+    .dots:after{content:"";position:absolute;top:18px;bottom:-18px;width:1px;background:linear-gradient(180deg,rgba(82,112,188,.35),rgba(18,28,52,0));}
+    .timeline-row:last-child .dots:after{display:none}
+    .dot-small{width:12px;height:12px;border-radius:50%;box-shadow:0 0 12px currentColor}
     .dot-small.blue{background:#55a7ff;color:rgba(85,167,255,.7)}
     .dot-small.pink{background:#ff5f8d;color:rgba(255,95,141,.7)}
     .dot-small.teal{background:#39ffd5;color:rgba(57,255,213,.7)}
@@ -263,8 +276,10 @@
         </div>
         <div class="map" aria-hidden="true">
           <span class="map-dot blue"></span>
-          <span class="map-dot pink"></span>
+          <span class="map-dot violet"></span>
+          <span class="map-dot red"></span>
           <span class="map-dot teal"></span>
+          <span class="map-dot gold"></span>
         </div>
       </article>
     </div>
@@ -273,15 +288,47 @@
       <article class="card">
         <h2>Statistics Overview</h2>
         <div class="stats-grid">
-          <div class="stats-row">
-            <div class="metric"><h3>Investigations</h3><strong>23</strong><span>+5.8% vs 24h</span></div>
-            <div class="metric"><h3>Completed Tasks</h3><strong>157</strong><span>+2.4%</span></div>
-            <div class="metric"><h3>Active Transforms</h3><strong>12</strong><span>+1 queued</span></div>
+          <div class="metric">
+            <h3>Investigations</h3>
+            <strong>23</strong>
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 9.5 6.5 6l2.2 2.2L12.5 4l.7.7-4.3 4.3L6.5 7.6 3.7 10.4z"/></svg>+5.8% vs 24h</span>
+            <svg class="spark area" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 28L8 26L16 24L24 18L32 16L40 12L48 10L56 9L64 6L72 8L80 4"/></svg>
+            <svg class="spark" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 28L8 26L16 24L24 18L32 16L40 12L48 10L56 9L64 6L72 8L80 4"/></svg>
           </div>
-          <div class="stats-row">
-            <div class="metric"><h3>Domain to Breach</h3><strong>436</strong><span>+2.8%</span></div>
-            <div class="metric"><h3>Email to Social</h3><strong>112</strong><span>+3.4%</span></div>
-            <div class="metric"><h3>Pending Tasks</h3><strong>8</strong><span>↗ backlog</span></div>
+          <div class="metric">
+            <h3>Completed Tasks</h3>
+            <strong>157</strong>
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 9.5 6.5 6l2.2 2.2L12.5 4l.7.7-4.3 4.3L6.5 7.6 3.7 10.4z"/></svg>+2.4%</span>
+            <svg class="spark area" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 26L8 24L16 22L24 21L32 18L40 16L48 14L56 12L64 14L72 10L80 8"/></svg>
+            <svg class="spark" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 26L8 24L16 22L24 21L32 18L40 16L48 14L56 12L64 14L72 10L80 8"/></svg>
+          </div>
+          <div class="metric">
+            <h3>Active Transforms</h3>
+            <strong>12</strong>
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 9.5 6.5 6l2.2 2.2L12.5 4l.7.7-4.3 4.3L6.5 7.6 3.7 10.4z"/></svg>+1 queued</span>
+            <svg class="spark area" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 30L8 28L16 24L24 20L32 18L40 20L48 18L56 16L64 12L72 14L80 16"/></svg>
+            <svg class="spark" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 30L8 28L16 24L24 20L32 18L40 20L48 18L56 16L64 12L72 14L80 16"/></svg>
+          </div>
+          <div class="metric">
+            <h3>Domain to Breach</h3>
+            <strong>436</strong>
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 9.5 6.5 6l2.2 2.2L12.5 4l.7.7-4.3 4.3L6.5 7.6 3.7 10.4z"/></svg>+2.8%</span>
+            <svg class="spark area" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 28L8 24L16 20L24 16L32 12L40 10L48 12L56 14L64 12L72 10L80 12"/></svg>
+            <svg class="spark" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 28L8 24L16 20L24 16L32 12L40 10L48 12L56 14L64 12L72 10L80 12"/></svg>
+          </div>
+          <div class="metric">
+            <h3>Email to Social</h3>
+            <strong>112</strong>
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 9.5 6.5 6l2.2 2.2L12.5 4l.7.7-4.3 4.3L6.5 7.6 3.7 10.4z"/></svg>+3.4%</span>
+            <svg class="spark area" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 26L8 24L16 26L24 22L32 18L40 16L48 18L56 16L64 18L72 20L80 22"/></svg>
+            <svg class="spark" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 26L8 24L16 26L24 22L32 18L40 16L48 18L56 16L64 18L72 20L80 22"/></svg>
+          </div>
+          <div class="metric">
+            <h3>Pending Tasks</h3>
+            <strong>8</strong>
+            <span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h8v1.5H4zm0 4h8v1.5H4zm0 4h8v1.5H4z"/></svg>backlog</span>
+            <svg class="spark area" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 20L8 18L16 16L24 18L32 22L40 24L48 22L56 26L64 24L72 26L80 28"/></svg>
+            <svg class="spark" viewBox="0 0 80 34" preserveAspectRatio="none"><path d="M0 20L8 18L16 16L24 18L32 22L40 24L48 22L56 26L64 24L72 26L80 28"/></svg>
           </div>
         </div>
       </article>
@@ -303,20 +350,20 @@
       <article class="donut-card">
         <div class="donut" aria-hidden="true"></div>
         <div class="legend">
-          <div><strong>Rest APIs</strong> · 25%</div>
-          <div><strong>Social Media</strong> · 20%</div>
-          <div><strong>DNS</strong> · 18%</div>
-          <div><strong>Leaks</strong> · 10%</div>
-          <div><strong>WHOIS</strong> · 12%</div>
+          <div class="legend-line"><div class="legend-left"><span class="legend-dot blue"></span><strong>Rest APIs</strong></div><span>25%</span></div>
+          <div class="legend-line"><div class="legend-left"><span class="legend-dot magenta"></span><strong>Social Media</strong></div><span>20%</span></div>
+          <div class="legend-line"><div class="legend-left"><span class="legend-dot teal"></span><strong>DNS</strong></div><span>18%</span></div>
+          <div class="legend-line"><div class="legend-left"><span class="legend-dot gold"></span><strong>Leaks</strong></div><span>10%</span></div>
+          <div class="legend-line"><div class="legend-left"><span class="legend-dot violet"></span><strong>WHOIS</strong></div><span>12%</span></div>
         </div>
       </article>
 
       <article class="card timeline">
         <h2>Breach Timeline</h2>
-        <div class="timeline-row"><div class="dots"><span class="dot-small blue"></span><span>09:00</span></div><div>Credential spray detected against corp VPN</div></div>
-        <div class="timeline-row"><div class="dots"><span class="dot-small teal"></span><span>11:30</span></div><div>Pivot to social media persona "cobalt_ops"</div></div>
-        <div class="timeline-row"><div class="dots"><span class="dot-small pink"></span><span>14:10</span></div><div>Leak forum chatter referencing stolen workspace</div></div>
-        <div class="timeline-row"><div class="dots"><span class="dot-small blue"></span><span>16:45</span></div><div>Command & control IP handed off to takedown</div></div>
+        <div class="timeline-row"><div class="dots"><span class="dot-small blue"></span></div><div class="timeline-time">09:00</div><div>Credential spray detected against corp VPN</div></div>
+        <div class="timeline-row"><div class="dots"><span class="dot-small teal"></span></div><div class="timeline-time">11:30</div><div>Pivot to social media persona "cobalt_ops"</div></div>
+        <div class="timeline-row"><div class="dots"><span class="dot-small pink"></span></div><div class="timeline-time">14:10</div><div>Leak forum chatter referencing stolen workspace</div></div>
+        <div class="timeline-row"><div class="dots"><span class="dot-small blue"></span></div><div class="timeline-time">16:45</div><div>Command & control IP handed off to takedown</div></div>
       </article>
     </div>
   </section>
