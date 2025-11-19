@@ -46,6 +46,29 @@
     .particle:nth-child(15){left:86%;animation-delay:28s;animation-duration:23s}
     .particle:nth-child(16){left:92%;animation-delay:30s;animation-duration:15s}
     .particle:nth-child(17){left:96%;animation-delay:32s;animation-duration:18s}
+    .droplets{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .droplet{position:absolute;width:2px;height:2px;border-radius:50%;opacity:0;animation:dropletFall 12s linear infinite}
+    .droplet.blue{background:#58a8ff;box-shadow:0 0 4px rgba(88,168,255,.5)}
+    .droplet.pink{background:#ff5f8d;box-shadow:0 0 4px rgba(255,95,141,.5)}
+    .droplet.teal{background:#3ef8c9;box-shadow:0 0 4px rgba(62,248,201,.5)}
+    @keyframes dropletFall{0%{opacity:0;transform:translate3d(0,-100vh,0)}5%{opacity:.6}95%{opacity:.6}100%{opacity:0;transform:translate3d(0,120vh,0)}}
+    .droplet:nth-child(1){left:3%;animation-delay:0s;animation-duration:11s}
+    .droplet:nth-child(2){left:9%;animation-delay:1.5s;animation-duration:13s}
+    .droplet:nth-child(3){left:15%;animation-delay:3s;animation-duration:14s}
+    .droplet:nth-child(4){left:21%;animation-delay:4.5s;animation-duration:12s}
+    .droplet:nth-child(5){left:27%;animation-delay:6s;animation-duration:15s}
+    .droplet:nth-child(6){left:33%;animation-delay:7.5s;animation-duration:16s}
+    .droplet:nth-child(7){left:39%;animation-delay:9s;animation-duration:10s}
+    .droplet:nth-child(8){left:45%;animation-delay:10.5s;animation-duration:17s}
+    .droplet:nth-child(9){left:51%;animation-delay:12s;animation-duration:13s}
+    .droplet:nth-child(10){left:57%;animation-delay:13.5s;animation-duration:14s}
+    .droplet:nth-child(11){left:63%;animation-delay:15s;animation-duration:11s}
+    .droplet:nth-child(12){left:69%;animation-delay:16.5s;animation-duration:15s}
+    .droplet:nth-child(13){left:75%;animation-delay:18s;animation-duration:16s}
+    .droplet:nth-child(14){left:81%;animation-delay:19.5s;animation-duration:12s}
+    .droplet:nth-child(15){left:87%;animation-delay:21s;animation-duration:17s}
+    .droplet:nth-child(16){left:93%;animation-delay:22.5s;animation-duration:10s}
+    .droplet:nth-child(17){left:97%;animation-delay:24s;animation-duration:13s}
     main{width:min(1600px,96vw);display:grid;gap:1.8rem;position:relative;z-index:1;animation:fadeIn .8s ease forwards;opacity:0}
     @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
     h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:.08em}
@@ -216,6 +239,26 @@
   <span class="particle blue"></span>
   <span class="particle pink"></span>
   <span class="particle teal"></span>
+</div>
+<div class="droplets" aria-hidden="true">
+  <span class="droplet blue"></span>
+  <span class="droplet pink"></span>
+  <span class="droplet teal"></span>
+  <span class="droplet blue"></span>
+  <span class="droplet pink"></span>
+  <span class="droplet teal"></span>
+  <span class="droplet blue"></span>
+  <span class="droplet pink"></span>
+  <span class="droplet teal"></span>
+  <span class="droplet blue"></span>
+  <span class="droplet pink"></span>
+  <span class="droplet teal"></span>
+  <span class="droplet blue"></span>
+  <span class="droplet pink"></span>
+  <span class="droplet teal"></span>
+  <span class="droplet blue"></span>
+  <span class="droplet pink"></span>
+  <span class="droplet teal"></span>
 </div>
 <main>
   <header class="glass topbar">
