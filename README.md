@@ -13,6 +13,12 @@ SpectraGraph empowers analysts, journalists, and incident responders to map rela
 - 🧠 Live, modular transforms that enrich entities as you explore
 - 🛡️ Built for rigorous, defensible investigation workflows end to end
 
+## 📸 Preview
+
+![SpectraGraph dashboard](docs/assets/screenshots/dashboard.png)
+
+> Dashboard layout showing timeline widgets, trend cards, and investigation queue.
+
 ## 🚀 Overview
 SpectraGraph is a modular OSINT enrichment platform built as a production‑grade distributed system, designed for scalable intelligence gathering. It uses a layered architecture—frontend → API → orchestration core → transforms → shared types—and integrates Postgres, Redis, and Neo4j through a Celery‑based workflow engine.
 
@@ -133,12 +139,6 @@ API  → Postgres / Neo4j / Redis for reads & task enqueueing
 | 🧱 Shared Types | Pydantic models | Single source of truth for domain schemas | Imported across API/Core/Transforms |
 | 🗄️ Storage Layer | Postgres · Neo4j | Persist entities, relationships, audit logs | Read by API/Core, visualized in UI |
 | ⚡ Messaging | Redis | Task queue + cache for hot entities | Backed by Celery + API prefetch |
-
-## 📸 Preview
-
-![SpectraGraph dashboard](docs/assets/screenshots/dashboard.png)
-
-> Dashboard layout showing timeline widgets, trend cards, and investigation queue.
 
 **Mission pipeline**
 
