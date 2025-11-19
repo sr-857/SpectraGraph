@@ -1,129 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SpectraGraph · Live OSINT Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
-<style>
-:root{--bg:#02040f;--grid:rgba(0,246,255,.08);--primary:#00f6ff;--violet:#b200ff;--teal:#00a8ff;--magenta:#ff00c3;--panel:rgba(8,20,48,.82);--panel-strong:rgba(13,32,70,.94);--text:#e6faff;--muted:rgba(198,230,255,.72);--border:rgba(0,168,255,.34);--border-bold:rgba(255,0,195,.22)}*,*:before,*:after{box-sizing:border-box}body{margin:0;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;overflow-x:hidden;position:relative}body:before,body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:-2}body:before{background:radial-gradient(circle at top center,rgba(0,246,255,.24),transparent 58%),radial-gradient(circle at 20% 20%,rgba(178,0,255,.25),transparent 40%),radial-gradient(circle at 80% 70%,rgba(0,168,255,.2),transparent 42%)}body:after{background-image:radial-gradient(var(--grid) 1px,transparent 1px);background-size:75px 75px;animation:drift 26s linear infinite;z-index:-1;opacity:.9}@keyframes drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-85px,-70px,0)}}h1,h2,h3{font-family:'Share Tech Mono',monospace;letter-spacing:.08em;text-transform:uppercase}.shell{width:min(1380px,96%);margin:0 auto;padding:clamp(1.8rem,4vw,3rem) 0 clamp(3rem,5vw,4rem);display:grid;gap:clamp(1.8rem,2vw,2.6rem)}.glass{background:var(--panel-strong);border:1px solid var(--border);border-radius:26px;padding:clamp(1.8rem,3vw,2.4rem);backdrop-filter:blur(18px);position:relative;box-shadow:0 26px 80px rgba(0,0,0,.55),0 0 45px rgba(0,246,255,.16);overflow:hidden}.glass:after{content:'';position:absolute;inset:12% 14% auto 14%;height:2px;background:linear-gradient(90deg,transparent,var(--primary),transparent);opacity:.35;animation:pulse 4s ease-in-out infinite}@keyframes pulse{0%,100%{opacity:.12}50%{opacity:.65}}.top{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(1.2rem,2vw,1.8rem);align-items:center}.logo{display:flex;align-items:center;gap:1.1rem}.orb{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle,rgba(0,246,255,.85),rgba(0,168,255,.12));border:1px solid rgba(0,246,255,.6);box-shadow:0 0 40px rgba(0,246,255,.45)}.clock{text-align:right;color:var(--muted);font-family:'Share Tech Mono';font-size:.95rem}.clock span{display:block}.summary{margin-top:1.4rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}.summary-card{padding:1rem 1.2rem;border-radius:18px;background:rgba(10,28,60,.78);border:1px solid rgba(0,168,255,.25);box-shadow:inset 0 0 28px rgba(0,168,255,.08)}.summary-card h3{margin:0 0 .6rem;font-size:.85rem;color:var(--primary);letter-spacing:.16em}.summary-card p{margin:0;font-size:1.2rem;font-family:'Share Tech Mono'} .summary-card .delta{margin-top:.3rem;font-size:.8rem;color:var(--muted)}.main-grid{display:grid;grid-template-columns:2fr 1.2fr;gap:clamp(1.6rem,2vw,2.2rem)}.panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.6rem}.panel-header h2{margin:0;font-size:1rem;letter-spacing:.18em;color:var(--primary)}.badge{padding:.35rem .8rem;border-radius:999px;border:1px solid rgba(0,246,255,.4);color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em}.score{display:grid;gap:1.2rem}.score-value{margin:0;font-size:clamp(3rem,5vw,4.5rem);font-family:'Share Tech Mono';color:var(--magenta)}.trend{display:grid;grid-template-columns:repeat(6,1fr);gap:.6rem}.bar{height:120px;border-radius:16px;background:linear-gradient(180deg,rgba(0,246,255,.35),rgba(0,246,255,.05));border:1px solid rgba(0,168,255,.3);position:relative;overflow:hidden}.bar:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,0,195,.5),transparent 65%);opacity:.6;animation:glow 4s ease-in-out infinite}@keyframes glow{0%,100%{transform:translateY(0)}50%{transform:translateY(-6%)}}.graph{height:280px;border-radius:24px;background:radial-gradient(circle,rgba(0,246,255,.24),rgba(0,246,255,.05));border:1px solid rgba(0,168,255,.3);position:relative;overflow:hidden;margin-top:1.2rem}.node{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--primary);box-shadow:0 0 25px rgba(0,246,255,.55)}.node.core{width:26px;height:26px;left:48%;top:44%;background:var(--magenta);box-shadow:0 0 35px rgba(255,0,195,.65)}.link{position:absolute;width:2px;background:linear-gradient(180deg,rgba(0,246,255,.7),transparent);transform-origin:top left;opacity:.55}.side{display:grid;gap:clamp(1.4rem,2vw,2rem)}.list{display:grid;gap:.85rem;font-family:'Share Tech Mono';font-size:.85rem}.item{display:grid;grid-template-columns:1.2fr 1fr .6fr;gap:.8rem;align-items:center;padding:.7rem 1rem;border-radius:14px;background:rgba(6,14,32,.6);border:1px solid rgba(0,168,255,.2)}.status{padding:.3rem .6rem;border-radius:999px;text-align:center;font-size:.72rem;color:var(--primary);background:rgba(0,246,255,.12);border:1px solid rgba(0,246,255,.35)}.feed{display:grid;gap:.8rem;font-family:'Share Tech Mono';font-size:.82rem;background:var(--panel);border:1px solid rgba(0,168,255,.25);border-radius:20px;padding:1.2rem 1.4rem;box-shadow:inset 0 0 35px rgba(0,168,255,.12)}.feed-row{display:grid;grid-template-columns:.8fr 1.1fr 1fr;gap:.8rem;align-items:center;opacity:.9}.feed-row strong{color:var(--primary)}.scan{padding:.7rem 1.6rem;border-radius:999px;border:1px solid rgba(0,246,255,.42);color:var(--primary);letter-spacing:.16em;text-transform:uppercase;font-size:.8rem;box-shadow:0 0 30px rgba(0,246,255,.25);transition:transform .3s ease,box-shadow .3s ease;background:rgba(0,246,255,.12);align-self:start;justify-self:end}.scan:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 0 40px rgba(255,0,195,.35)}@media(max-width:1080px){.main-grid{grid-template-columns:1fr}.item,.feed-row{grid-template-columns:1fr;gap:.4rem;text-align:left}.scan{justify-self:stretch}}@media(max-width:720px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style>
-<style>
-@keyframes fadeInUp{0%{opacity:0;transform:translateY(24px) scale(.98);}80%{opacity:1;}100%{opacity:1;transform:translateY(0) scale(1);}}
-@keyframes holoSweep{0%{transform:translateY(-120%);}50%{opacity:.55;}75%{opacity:0;}100%{transform:translateY(160%);opacity:0;}}
-@keyframes holoFlicker{0%,100%{opacity:1;}48%{opacity:.97;}49%{opacity:.8;}50%{opacity:1;}68%{opacity:.96;}69%{opacity:.7;}76%{opacity:1;}}
-@keyframes nodePulse{0%{transform:scale(.9);box-shadow:0 0 0 0 rgba(0,246,255,.45);}60%{transform:scale(1.05);box-shadow:0 0 22px 6px rgba(0,168,255,.25);}100%{transform:scale(.9);box-shadow:0 0 0 0 rgba(0,246,255,.15);}}
-@keyframes linkPulse{0%{opacity:.12;}50%{opacity:.45;}100%{opacity:.12;}}
-@keyframes signal{0%{height:12px;opacity:.25;}50%{height:58px;opacity:.75;}100%{height:18px;opacity:.35;}}
-@keyframes buttonGlow{0%{box-shadow:0 0 16px rgba(0,246,255,.22);}50%{box-shadow:0 0 32px rgba(0,246,255,.6);}100%{box-shadow:0 0 16px rgba(0,246,255,.22);}}
-@keyframes feedDrift{0%{transform:translateY(0);}100%{transform:translateY(-6px);}}
-.shell>*{animation:fadeInUp .9s ease forwards;}
-.shell>*:nth-child(2){animation-delay:.11s;}
-.glass::before{content:"";position:absolute;inset:-160% -40% auto -40%;height:120%;background:linear-gradient(120deg,transparent 0%,rgba(0,246,255,.35)45%,transparent 78%);opacity:0;mix-blend-mode:screen;pointer-events:none;animation:holoSweep 9s ease-in-out infinite;}
-.glass{animation:holoFlicker 14s linear infinite;}
-.graph .node{animation:nodePulse 6s ease-in-out infinite;}
-.graph .node:nth-child(odd){animation-delay:1.2s;}
-.graph .core{animation-duration:4.4s;}
-.graph .link{animation:linkPulse 4.8s ease-in-out infinite;}
-.graph .link:nth-child(even){animation-delay:2.6s;}
-.score .bar{animation:signal 2.8s ease-in-out infinite;transform-origin:bottom;}
-.score .bar:nth-child(odd){animation-delay:1.1s;}
-.scan{animation:buttonGlow 3.6s ease-in-out infinite;}
-.feed{animation:feedDrift 10s ease-in-out infinite alternate;}
-.feed:hover{animation-play-state:paused;}
-.feed-row{transition:background .3s ease,transform .3s ease;}
-.feed-row:hover{background:rgba(0,168,255,.14);transform:translateX(4px);}
-.summary-card{transition:transform .35s ease,box-shadow .35s ease;}
-.summary-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,168,255,.18);}
-.list .item{transition:background .3s ease,transform .3s ease;}
-.list .item:hover{background:rgba(178,0,255,.12);transform:translateX(4px);}
-.badge{transition:letter-spacing .3s ease,color .3s ease;}
-.glass:hover .badge{letter-spacing:.18em;color:var(--primary);}
-.scan:hover{transform:translateY(-1px) scale(1.02);}
-.scan:active{transform:scale(.96);}
-@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;background-attachment:initial!important}.glass::before{display:none;}.feed{animation:none;}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SpectraGraph · Operations Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#05060e;--panel:#111729;--accent:#3f8cff;--accent-strong:#296cff;--positive:#3ef7a5;--warning:#ffc95c;--critical:#ff5f8d;--muted:rgba(206,216,240,.78);--text:#f6f8ff;--border:rgba(102,128,196,.26);--radius:20px}
+    *,*:before,*:after{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;justify-content:center;background:radial-gradient(circle at top left,rgba(70,146,255,.22),transparent 55%),radial-gradient(circle at 80% 20%,rgba(144,74,255,.18),transparent 60%),var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;padding:clamp(2.4rem,6vw,4rem) clamp(1.6rem,6vw,4rem)}
+    main{width:min(1180px,100%);display:grid;gap:1.8rem}
+    .glass{background:linear-gradient(160deg,rgba(18,24,42,.94),rgba(8,12,26,.88));border-radius:var(--radius);border:1px solid var(--border);box-shadow:0 26px 54px rgba(7,10,24,.58);backdrop-filter:blur(18px)}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:1.3rem 1.7rem}
+    .brand{display:flex;align-items:center;gap:.95rem}
+    .logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(140deg,#7d5bff,#3ad6ff 78%);box-shadow:0 16px 34px rgba(58,214,255,.42);display:grid;place-items:center}
+    .logo span{width:15px;height:24px;border-radius:11px;background:linear-gradient(180deg,#ff7bb9,#45f8ff)}
+    .brand h1{margin:0;font-size:1.28rem;letter-spacing:.08em;font-weight:600}
+    nav{display:flex;align-items:center;gap:1.8rem;font-size:.95rem;color:var(--muted)}
+    nav span{position:relative;padding-bottom:.35rem;cursor:pointer;transition:color .25s ease}
+    nav span.active,nav span:hover{color:var(--text)}
+    nav span.active:after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--accent-strong),#6fd4ff);box-shadow:0 0 16px rgba(73,177,255,.55)}
+    .topbar-tools{display:flex;align-items:center;gap:1.3rem;font-size:.84rem;color:var(--muted)}
+    .pill{padding:.45rem .95rem;border-radius:999px;border:1px solid rgba(64,160,255,.28);background:rgba(64,160,255,.12);letter-spacing:.08em;text-transform:uppercase}
+    .docs{color:var(--muted);text-decoration:none}
+    .docs:hover{color:var(--text)}
+    .avatar{width:36px;height:36px;border-radius:50%;background:rgba(124,154,230,.62);border:2px solid rgba(255,255,255,.08)}
+    .grid-two{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.55fr);gap:1.8rem}
+    .column{display:grid;gap:1.5rem}
+    .card{background:linear-gradient(170deg,rgba(18,24,40,.96),rgba(10,14,26,.92));border-radius:var(--radius);border:1px solid var(--border);padding:1.55rem 1.7rem;box-shadow:0 22px 42px rgba(5,8,18,.55);display:grid;gap:1.2rem}
+    .card h2{margin:0;font-size:.96rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .field-group{display:grid;gap:1rem}
+    .field{display:flex;flex-direction:column;gap:.45rem;font-size:.84rem;color:var(--muted)}
+    .input-shell{border-radius:12px;border:1px solid rgba(90,112,184,.34);background:rgba(10,14,24,.82);padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--text)}
+    .input-shell span{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .primary-btn{padding:.9rem 2.4rem;border-radius:12px;border:none;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(118deg,var(--accent),#68d8ff);color:#071325;box-shadow:0 24px 40px rgba(64,152,255,.38);cursor:pointer}
+    .primary-btn:hover{transform:translateY(-2px);box-shadow:0 28px 48px rgba(64,152,255,.46)}
+    .table-list{display:grid;gap:.95rem}
+    .table-row{display:grid;grid-template-columns:1.2fr 1fr auto;gap:1rem;align-items:center;padding:.85rem 1rem;border-radius:15px;background:rgba(12,18,34,.9);border:1px solid rgba(98,122,188,.24);font-size:.87rem}
+    .table-row strong{font-weight:600;color:var(--text)}
+    .status{padding:.32rem .85rem;border-radius:999px;border:1px solid rgba(70,240,186,.35);background:rgba(70,240,186,.12);color:var(--positive);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+    .status.warn{color:var(--warning);border-color:rgba(255,201,92,.35);background:rgba(255,201,92,.12)}
+    .status.crit{color:var(--critical);border-color:rgba(255,95,141,.35);background:rgba(255,95,141,.12)}
+    .map{margin-top:1.1rem;height:120px;border-radius:14px;border:1px solid rgba(100,126,194,.2);background:radial-gradient(circle at 20% 32%,rgba(63,139,255,.28),transparent 55%),radial-gradient(circle at 78% 68%,rgba(255,95,141,.35),transparent 60%),linear-gradient(140deg,rgba(14,20,36,.92),rgba(10,14,24,.9));position:relative;overflow:hidden}
+    .map:after{content:'';position:absolute;inset:18px;border:1px dashed rgba(120,148,220,.28);border-radius:12px}
+    .map-dot{position:absolute;width:12px;height:12px;border-radius:50%;box-shadow:0 0 14px currentColor}
+    .map-dot.blue{background:#59a8ff;color:rgba(89,168,255,.7);top:40%;left:24%}
+    .map-dot.pink{background:#ff5f8d;color:rgba(255,95,141,.7);top:64%;right:18%}
+    .map-dot.teal{background:#3ef8c9;color:rgba(62,248,201,.7);top:26%;right:32%}
+    .stats-grid{display:grid;gap:1.1rem}
+    .stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.1rem}
+    .metric{padding:1.1rem 1.2rem;border-radius:16px;background:rgba(14,21,36,.9);border:1px solid rgba(98,122,188,.24);display:grid;gap:.5rem}
+    .metric h3{margin:0;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    .metric strong{font-size:1.7rem}
+    .metric span{color:var(--accent);font-size:.8rem}
+    .chart{padding:1.2rem;border-radius:16px;background:rgba(14,21,36,.9);border:1px solid rgba(98,122,188,.24);display:grid;gap:1rem}
+    .chart-head{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted)}
+    .bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.6rem;align-items:flex-end;height:110px}
+    .bar{border-radius:8px;background:linear-gradient(180deg,rgba(63,139,255,.75),rgba(26,60,110,.2));height:40%}
+    .bar.alt{background:linear-gradient(180deg,rgba(117,86,255,.74),rgba(26,40,120,.2))}
+    .chart-foot{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+    .donut-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem;align-items:center;padding:1.2rem;border-radius:16px;background:rgba(14,21,36,.9);border:1px solid rgba(98,122,188,.24)}
+    .donut{width:136px;height:136px;border-radius:50%;background:conic-gradient(#3d9bff 0 90deg,#57ffcc 90deg 180deg,#ff5f8d 180deg 260deg,#ffca63 260deg 310deg,#8e7bff 310deg 360deg);display:grid;place-items:center;position:relative}
+    .donut:after{content:'25%';position:absolute;width:92px;height:92px;border-radius:50%;background:rgba(12,18,34,.88);display:grid;place-items:center;font-weight:600}
+    .legend{display:grid;gap:.75rem;font-size:.82rem;color:var(--muted)}
+    .legend strong{color:var(--text)}
+    .timeline{display:grid;gap:1rem;margin-top:.8rem}
+    .timeline-row{display:grid;grid-template-columns:.9fr 2fr;gap:1.2rem;align-items:center;padding:.85rem 1.05rem;border-radius:14px;background:rgba(12,18,34,.9);border:1px solid rgba(98,122,188,.24);font-size:.86rem;color:var(--muted)}
+    .dots{display:flex;gap:.55rem;align-items:center}
+    .dot-small{width:9px;height:9px;border-radius:50%;box-shadow:0 0 10px currentColor}
+    .dot-small.blue{background:#55a7ff;color:rgba(85,167,255,.7)}
+    .dot-small.pink{background:#ff5f8d;color:rgba(255,95,141,.7)}
+    .dot-small.teal{background:#39ffd5;color:rgba(57,255,213,.7)}
+    .footer{text-align:right;font-size:.75rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+    @media(max-width:1080px){.grid-two{grid-template-columns:1fr}.column{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
+    @media(max-width:760px){body{padding:1.6rem}.topbar{flex-direction:column;align-items:flex-start;gap:1.1rem}.table-row{grid-template-columns:1fr}.donut-card{grid-template-columns:1fr}.timeline-row{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-<div class="shell">
-  <header class="glass">
-    <div class="top">
-      <div class="logo">
-        <span class="orb"></span>
-        <div>
-          <h1 style="margin:0;font-size:1.6rem;letter-spacing:0.2em">SpectraGraph</h1>
-          <p style="margin:0;color:var(--muted);font-size:.95rem">Distributed OSINT Threat Intelligence Console</p>
-        </div>
-      </div>
-      <div class="clock">
-        <span>Mission: <strong style="color:var(--primary)">Phoenix Sweep</strong></span>
-        <span id="clock">UTC 00:00:00</span>
-      </div>
+<main>
+  <header class="glass topbar">
+    <div class="brand">
+      <div class="logo"><span></span></div>
+      <h1>SpectraGraph</h1>
     </div>
-    <div class="summary">
-      <div class="summary-card"><h3>Active Transforms</h3><p>18</p><span class="delta">+5 in last 30m</span></div>
-      <div class="summary-card"><h3>Investigations</h3><p>42</p><span class="delta">7 escalated</span></div>
-      <div class="summary-card"><h3>Graph Nodes</h3><p>1,382</p><span class="delta">+112 today</span></div>
-      <div class="summary-card"><h3>Signals</h3><p>9.7k</p><span class="delta">Infra · Credential · Social</span></div>
+    <nav>
+      <span class="active">Home</span>
+      <span>Investigations</span>
+      <span>Transform Catalog</span>
+      <span>Settings</span>
+    </nav>
+    <div class="topbar-tools">
+      <span class="pill">SOC PRIME</span>
+      <span class="pill">08 Tasks</span>
+      <a class="docs" href="#">Docs</a>
+      <div class="avatar" aria-hidden="true"></div>
     </div>
   </header>
 
-  <section class="main-grid">
-    <div class="glass" aria-label="threat score and entity graph">
-      <div class="panel-header"><h2>Threat Score</h2><span class="badge">Realtime</span></div>
-      <div class="score">
-        <p class="score-value">92.4</p>
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem">
-          <span style="color:var(--muted);font-family:'Share Tech Mono';font-size:.9rem">Recon / Credential Spray linked to <strong style="color:var(--primary)">example.net</strong></span>
-          <button class="scan" type="button">Scan Now</button>
+  <section class="grid-two">
+    <div class="column">
+      <article class="card">
+        <h2>Quick Investigation</h2>
+        <div class="field-group">
+          <div class="field">
+            <label for="target">Target</label>
+            <div class="input-shell">domain.com <span>domain</span></div>
+          </div>
+          <div class="field">
+            <label for="transform">Transform</label>
+            <div class="input-shell">Domain to Breach <span>transform</span></div>
+          </div>
         </div>
-        <div class="trend">
-          <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <button class="primary-btn" type="button">Run Investigation</button>
+      </article>
+
+      <article class="card">
+        <h2>Recent Investigations</h2>
+        <div class="table-list" role="list">
+          <div class="table-row" role="listitem"><strong>domain.com</strong><span>Domain → Breach</span><span class="status">Active</span></div>
+          <div class="table-row" role="listitem"><strong>example.net</strong><span>IP → Location</span><span class="status warn">Monitoring</span></div>
+          <div class="table-row" role="listitem"><strong>domain.com</strong><span>Email → Social Media</span><span class="status">Ready</span></div>
+          <div class="table-row" role="listitem"><strong>example.net</strong><span>Domain</span><span class="status crit">Escalate</span></div>
         </div>
-      </div>
-      <div style="margin-top:1.8rem" class="panel-header"><h2>Entity Graph</h2><span class="badge">Neo4j Snapshot</span></div>
-      <div class="graph" role="presentation">
-        <span class="node core"></span>
-        <span class="node" style="left:18%;top:22%"></span>
-        <span class="node" style="left:72%;top:28%"></span>
-        <span class="node" style="left:22%;top:72%"></span>
-        <span class="node" style="left:66%;top:68%"></span>
-        <span class="node" style="left:40%;top:18%"></span>
-        <span class="node" style="left:58%;top:82%"></span>
-        <span class="link" style="left:48%;top:44%;height:160px;transform:rotate(120deg)"></span>
-        <span class="link" style="left:48%;top:44%;height:140px;transform:rotate(40deg)"></span>
-        <span class="link" style="left:48%;top:44%;height:130px;transform:rotate(200deg)"></span>
-        <span class="link" style="left:48%;top:44%;height:150px;transform:rotate(320deg)"></span>
-      </div>
+        <div class="map" aria-hidden="true">
+          <span class="map-dot blue"></span>
+          <span class="map-dot pink"></span>
+          <span class="map-dot teal"></span>
+        </div>
+      </article>
     </div>
 
-    <aside class="side">
-      <div class="glass" aria-label="recent investigations">
-        <div class="panel-header"><h2>Recent Investigations</h2><span class="badge">Queue</span></div>
-        <div class="list">
-          <div class="item"><span>example.net</span><span>Domain → Breach</span><span class="status">Escalated</span></div>
-          <div class="item"><span>cobaltcorp.io</span><span>IP → Social</span><span class="status" style="color:#ffce6a;border-color:rgba(255,206,106,.5)">Monitoring</span></div>
-          <div class="item"><span>advisor.cloud</span><span>MX → Leak</span><span class="status" style="color:#bfffb7;border-color:rgba(191,255,183,.45)">Cleared</span></div>
-          <div class="item"><span>neonex.biz</span><span>SSL → Intel</span><span class="status">Escalated</span></div>
+    <div class="column">
+      <article class="card">
+        <h2>Statistics Overview</h2>
+        <div class="stats-grid">
+          <div class="stats-row">
+            <div class="metric"><h3>Investigations</h3><strong>23</strong><span>+5.8% vs 24h</span></div>
+            <div class="metric"><h3>Completed Tasks</h3><strong>157</strong><span>+2.4%</span></div>
+            <div class="metric"><h3>Active Transforms</h3><strong>12</strong><span>+1 queued</span></div>
+          </div>
+          <div class="stats-row">
+            <div class="metric"><h3>Domain to Breach</h3><strong>436</strong><span>+2.8%</span></div>
+            <div class="metric"><h3>Email to Social</h3><strong>112</strong><span>+3.4%</span></div>
+            <div class="metric"><h3>Pending Tasks</h3><strong>8</strong><span>↗ backlog</span></div>
+          </div>
         </div>
-      </div>
-      <div class="glass" aria-label="enrichment logs">
-        <div class="panel-header"><h2>Enrichment Logs</h2><span class="badge">Domains · IP · Social · Crypto</span></div>
-        <div class="feed">
-          <div class="feed-row"><strong>12:44</strong><span>Dark web scrape</span><span>Leak forum credential set</span></div>
-          <div class="feed-row"><strong>12:41</strong><span>WHOIS refresh</span><span>Registrar shift to offshore ASN</span></div>
-          <div class="feed-row"><strong>12:37</strong><span>Shodan sensor</span><span>Open RDP · geo: NL</span></div>
-          <div class="feed-row"><strong>12:33</strong><span>Twitter monitor</span><span>Handle "c0balt" flagged</span></div>
-          <div class="feed-row"><strong>12:28</strong><span>Crypto tracer</span><span>Wallet linked to ransomware drip</span></div>
+      </article>
+
+      <article class="card chart">
+        <div class="chart-head"><span>Transform Activity</span><span>Last 7 days</span></div>
+        <div class="bars" aria-hidden="true">
+          <div class="bar" style="height:32%"></div>
+          <div class="bar alt" style="height:68%"></div>
+          <div class="bar" style="height:74%"></div>
+          <div class="bar alt" style="height:58%"></div>
+          <div class="bar" style="height:82%"></div>
+          <div class="bar alt" style="height:64%"></div>
+          <div class="bar" style="height:48%"></div>
         </div>
-      </div>
-    </aside>
+        <div class="chart-foot"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+      </article>
+
+      <article class="donut-card">
+        <div class="donut" aria-hidden="true"></div>
+        <div class="legend">
+          <div><strong>Rest APIs</strong> · 25%</div>
+          <div><strong>Social Media</strong> · 20%</div>
+          <div><strong>DNS</strong> · 18%</div>
+          <div><strong>Leaks</strong> · 10%</div>
+          <div><strong>WHOIS</strong> · 12%</div>
+        </div>
+      </article>
+
+      <article class="card timeline">
+        <h2>Breach Timeline</h2>
+        <div class="timeline-row"><div class="dots"><span class="dot-small blue"></span><span>09:00</span></div><div>Credential spray detected against corp VPN</div></div>
+        <div class="timeline-row"><div class="dots"><span class="dot-small teal"></span><span>11:30</span></div><div>Pivot to social media persona "cobalt_ops"</div></div>
+        <div class="timeline-row"><div class="dots"><span class="dot-small pink"></span><span>14:10</span></div><div>Leak forum chatter referencing stolen workspace</div></div>
+        <div class="timeline-row"><div class="dots"><span class="dot-small blue"></span><span>16:45</span></div><div>Command & control IP handed off to takedown</div></div>
+      </article>
+    </div>
   </section>
-</div>
-<script>
-function tick(){const el=document.getElementById('clock');if(!el)return;const now=new Date();el.textContent='UTC '+now.toISOString().substring(11,19);}tick();setInterval(tick,1000);
-</script>
+
+  <footer class="footer">SpectraGraph · Distributed OSINT Intelligence Platform</footer>
+</main>
 </body>
 </html>
