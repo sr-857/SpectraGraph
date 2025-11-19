@@ -23,6 +23,29 @@
     .background-aurora .aurora.pink{background:radial-gradient(circle at center,rgba(255,95,141,.55),transparent 65%);bottom:-8%;left:24%}
     .background-aurora .aurora.teal{background:radial-gradient(circle at center,rgba(62,248,201,.5),transparent 64%);top:18%;right:-10%}
     @keyframes auroraFloat{0%{transform:translate3d(-6%,0,0) scale(1)}45%{transform:translate3d(4%,6%,0) scale(1.08);opacity:.6}70%{transform:translate3d(2%,-4%,0) scale(.96);opacity:.42}100%{transform:translate3d(-6%,2%,0) scale(1)}}
+    .tech-particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .particle{position:absolute;width:3px;height:3px;border-radius:50%;opacity:0;animation:particleFloat 18s linear infinite}
+    .particle.blue{background:#58a8ff;box-shadow:0 0 6px rgba(88,168,255,.6)}
+    .particle.pink{background:#ff5f8d;box-shadow:0 0 6px rgba(255,95,141,.6)}
+    .particle.teal{background:#3ef8c9;box-shadow:0 0 6px rgba(62,248,201,.6)}
+    @keyframes particleFloat{0%{opacity:0;transform:translate3d(0,100vh,0)}10%{opacity:.7}90%{opacity:.7}100%{opacity:0;transform:translate3d(0,-120vh,0)}}
+    .particle:nth-child(1){left:2%;animation-delay:0s;animation-duration:16s}
+    .particle:nth-child(2){left:8%;animation-delay:2s;animation-duration:18s}
+    .particle:nth-child(3){left:14%;animation-delay:4s;animation-duration:20s}
+    .particle:nth-child(4){left:20%;animation-delay:6s;animation-duration:17s}
+    .particle:nth-child(5){left:26%;animation-delay:8s;animation-duration:19s}
+    .particle:nth-child(6){left:32%;animation-delay:10s;animation-duration:21s}
+    .particle:nth-child(7){left:38%;animation-delay:12s;animation-duration:15s}
+    .particle:nth-child(8){left:44%;animation-delay:14s;animation-duration:22s}
+    .particle:nth-child(9){left:50%;animation-delay:16s;animation-duration:18s}
+    .particle:nth-child(10){left:56%;animation-delay:18s;animation-duration:20s}
+    .particle:nth-child(11){left:62%;animation-delay:20s;animation-duration:16s}
+    .particle:nth-child(12){left:68%;animation-delay:22s;animation-duration:19s}
+    .particle:nth-child(13){left:74%;animation-delay:24s;animation-duration:21s}
+    .particle:nth-child(14){left:80%;animation-delay:26s;animation-duration:17s}
+    .particle:nth-child(15){left:86%;animation-delay:28s;animation-duration:23s}
+    .particle:nth-child(16){left:92%;animation-delay:30s;animation-duration:15s}
+    .particle:nth-child(17){left:96%;animation-delay:32s;animation-duration:18s}
     main{width:min(1600px,96vw);display:grid;gap:1.8rem;position:relative;z-index:1;animation:fadeIn .8s ease forwards;opacity:0}
     @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
     h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:.08em}
@@ -173,6 +196,26 @@
   <span class="aurora blue"></span>
   <span class="aurora pink"></span>
   <span class="aurora teal"></span>
+</div>
+<div class="tech-particles" aria-hidden="true">
+  <span class="particle blue"></span>
+  <span class="particle pink"></span>
+  <span class="particle teal"></span>
+  <span class="particle blue"></span>
+  <span class="particle pink"></span>
+  <span class="particle teal"></span>
+  <span class="particle blue"></span>
+  <span class="particle pink"></span>
+  <span class="particle teal"></span>
+  <span class="particle blue"></span>
+  <span class="particle pink"></span>
+  <span class="particle teal"></span>
+  <span class="particle blue"></span>
+  <span class="particle pink"></span>
+  <span class="particle teal"></span>
+  <span class="particle blue"></span>
+  <span class="particle pink"></span>
+  <span class="particle teal"></span>
 </div>
 <main>
   <header class="glass topbar">
