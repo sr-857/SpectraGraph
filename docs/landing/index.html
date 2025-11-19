@@ -23,8 +23,10 @@
     .glass:after{content:"";position:absolute;top:-120%;left:-35%;width:60%;height:300%;background:linear-gradient(120deg,transparent,rgba(111,221,255,.35),transparent);transform:rotate(18deg);opacity:0;animation:shimmer 8s ease-in-out infinite}
     @keyframes shimmer{0%{transform:translateX(-120%) rotate(18deg);opacity:0}35%{opacity:.55}50%{transform:translateX(180%) rotate(18deg);opacity:0}100%{transform:translateX(180%) rotate(18deg);opacity:0}}
     .topbar{display:flex;align-items:center;justify-content:space-between;padding:1.3rem 1.7rem}
-    .hero{display:grid;gap:1.4rem;padding:1.8rem 2rem;background:linear-gradient(135deg,rgba(32,49,92,.92),rgba(15,21,41,.88));border:1px solid rgba(111,205,255,.32);border-radius:22px;box-shadow:0 28px 58px rgba(20,40,92,.5);position:relative;overflow:hidden}
-    .hero:after{content:"";position:absolute;inset:-40% 10% -40% 55%;background:radial-gradient(circle at center,rgba(98,255,252,.18),transparent 55%);filter:blur(80px);opacity:.6;pointer-events:none}
+    .hero{display:grid;gap:1.4rem;padding:1.9rem 2.4rem;background:linear-gradient(140deg,rgba(30,49,96,.94),rgba(13,18,36,.9));border:1px solid rgba(111,205,255,.38);border-radius:26px;box-shadow:0 32px 64px rgba(18,40,96,.55);position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;inset:-30% 50% 10% -10%;background:radial-gradient(circle at 20% 20%,rgba(255,95,141,.35),transparent 62%);filter:blur(90px);opacity:.55;pointer-events:none;animation:heroGlow 20s ease-in-out infinite alternate}
+    .hero:after{content:"";position:absolute;inset:-40% 10% -40% 55%;background:radial-gradient(circle at center,rgba(98,255,252,.2),transparent 55%);filter:blur(80px);opacity:.6;pointer-events:none}
+    @keyframes heroGlow{0%{transform:translate3d(-4%,0,0) rotate(2deg);}50%{transform:translate3d(6%,4%,0) rotate(-1deg);}100%{transform:translate3d(0,-3%,0) rotate(1deg);}}
     .hero h2{margin:0;font-size:1.6rem;letter-spacing:.12em;text-transform:uppercase;color:#f9fbff}
     .hero p{margin:0;font-size:1rem;color:var(--muted);max-width:640px;line-height:1.6}
     .hero-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.4rem}
@@ -35,6 +37,12 @@
     .outline-btn:hover{border-color:rgba(111,205,255,.55)}
     .hero-highlights{display:flex;flex-wrap:wrap;gap:.75rem}
     .hero-chip{padding:.5rem 1.2rem;border-radius:999px;border:1px solid rgba(88,120,200,.35);color:var(--muted);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(18,28,52,.72);backdrop-filter:blur(8px)}
+    .hero-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.1rem;margin-top:.6rem}
+    .hero-metric{position:relative;padding:1rem 1.1rem;border-radius:18px;background:rgba(15,26,48,.82);border:1px solid rgba(111,205,255,.32);box-shadow:0 16px 32px rgba(12,26,58,.45);display:grid;gap:.35rem;overflow:hidden}
+    .hero-metric:after{content:"";position:absolute;inset:-40% 40% -40% -20%;background:radial-gradient(circle,rgba(63,140,255,.22),transparent 65%);opacity:.6;mix-blend-mode:screen}
+    .hero-metric svg{width:22px;height:22px;fill:var(--accent);filter:drop-shadow(0 0 8px rgba(63,140,255,.45))}
+    .hero-metric span{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(210,222,245,.75)}
+    .hero-metric strong{font-size:1.45rem;font-weight:600;color:var(--text);text-shadow:0 0 22px rgba(106,200,255,.55)}
     .brand{display:flex;align-items:center;gap:.95rem}
     .logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(140deg,#7d5bff,#3ad6ff 78%);box-shadow:0 16px 34px rgba(58,214,255,.42);display:grid;place-items:center}
     .logo span{width:15px;height:24px;border-radius:11px;background:linear-gradient(180deg,#ff7bb9,#45f8ff)}
@@ -145,6 +153,28 @@
       <span class="hero-chip">SOC-ready Runbooks</span>
       <span class="hero-chip">Dark Web Telemetry</span>
       <span class="hero-chip">Vaultless Demo Mode</span>
+    </div>
+    <div class="hero-metrics">
+      <div class="hero-metric">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2H4zM7 9h10v2H7zM4 14h16v2H4zM9 19h6v2H9z"/></svg>
+        <span>Detections Today</span>
+        <strong>42</strong>
+      </div>
+      <div class="hero-metric">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a9.93 9.93 0 0 0-7.07 2.93A10 10 0 1 0 22 12h-2a8 8 0 1 1-8-8V2Z"/><path d="m12.71 7.29-4.7 4.7 1.42 1.42L11 11.84V18h2v-7a1 1 0 0 0-.29-.71Z"/></svg>
+        <span>Median Response</span>
+        <strong>11m</strong>
+      </div>
+      <div class="hero-metric">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 7l10 5 9-4.5V17h2V7z"/><path d="M12 22 4 17v-6l8 4 8-4v6z"/></svg>
+        <span>Coverage Regions</span>
+        <strong>18</strong>
+      </div>
+      <div class="hero-metric">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.36 6.64a9 9 0 1 0 1.28 1.54l1.43-1.43a11 11 0 1 1-1.56-1.55zm-6.36 1.36v5l4.24 2.52-.76 1.3L10 13V8h2z"/></svg>
+        <span>Uptime</span>
+        <strong>99.9%</strong>
+      </div>
     </div>
   </section>
 
