@@ -13,6 +13,13 @@ SpectraGraph empowers analysts, journalists, and incident responders to map rela
 - 🧠 Live, modular transforms that enrich entities as you explore
 - 🛡️ Built for rigorous, defensible investigation workflows end to end
 
+
+## This project is now OFFICIALLY accepted for
+
+![project-image1](socialwinterofcode_cover.jpg)
+
+---
+
 ## 📸 Preview
 
 ![SpectraGraph dashboard](docs/assets/screenshots/dashboard-hero.png)
