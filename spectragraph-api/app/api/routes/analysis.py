@@ -23,7 +23,7 @@ def get_analyses(
 
     MAX_LIMIT = 100
     limit = min(limit, MAX_LIMIT) 
-    query= db.query(Analysis).filter(Analysis.owner_id == current_user.id)
+    query= db.query(Analysis).filter(Analysis.owner_id == current_user.id).order_by(Analysis.id.desc())
 
     if search:
         search_filter= or_(Analysis.title.ilike(f"%{search}%"),Analysis.description.ilike(f"%{search}%"))
