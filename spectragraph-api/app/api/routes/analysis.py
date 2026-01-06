@@ -19,7 +19,10 @@ router = APIRouter()
 def get_analyses(
         skip: int = 0,limit: int = 90,search: Optional[str] = None,
         db: Session = Depends(get_db), current_user: Profile = Depends(get_current_user)
-):
+):  
+
+    MAX_LIMIT = 100
+    limit = min(limit, MAX_LIMIT) 
     query= db.query(Analysis).filter(Analysis.owner_id == current_user.id)
 
     if search:
