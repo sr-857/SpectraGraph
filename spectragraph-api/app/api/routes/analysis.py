@@ -8,6 +8,8 @@ from spectragraph_core.core.postgre_db import get_db
 from spectragraph_core.core.models import Analysis, Profile
 from app.api.deps import get_current_user
 from app.api.schemas.analysis import AnalysisRead, AnalysisCreate, AnalysisUpdate
+from typing import Optional
+from sqlalchemy import or_
 
 router = APIRouter()
 
@@ -15,9 +17,19 @@ router = APIRouter()
 # Get the list of all analyses for the current user
 @router.get("", response_model=List[AnalysisRead])
 def get_analyses(
-    db: Session = Depends(get_db), current_user: Profile = Depends(get_current_user)
-):
-    analyses = db.query(Analysis).filter(Analysis.owner_id == current_user.id).all()
+        skip: int = 0,limit: int = 90,search: Optional[str] = None,
+        db: Session = Depends(get_db), current_user: Profile = Depends(get_current_user)
+):  
+
+    MAX_LIMIT = 100
+    limit = min(limit, MAX_LIMIT) 
+    query= db.query(Analysis).filter(Analysis.owner_id == current_user.id).order_by(Analysis.id.desc())
+
+    if search:
+        search_filter= or_(Analysis.title.ilike(f"%{search}%"),Analysis.description.ilike(f"%{search}%"))
+        query = query.filter(search_filter)
+
+    analyses=query.offset(skip).limit(limit).all()
     return analyses
 
 
