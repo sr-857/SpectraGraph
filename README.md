@@ -7,6 +7,14 @@
 
 SpectraGraph empowers analysts, journalists, and incident responders to map relationships across digital footprints without sacrificing data custody.
 
+
+
+## ✨This project is now OFFICIALLY accepted for
+
+![project-image1](socialwinterofcode_cover.jpg)
+
+
+
 ✨ **Why users love it**
 
 - ⚡️ Graph-first workspace with fluid rendering and multiple visual modes
@@ -14,9 +22,6 @@ SpectraGraph empowers analysts, journalists, and incident responders to map rela
 - 🛡️ Built for rigorous, defensible investigation workflows end to end
 
 
-## This project is now OFFICIALLY accepted for
-
-![project-image1](socialwinterofcode_cover.jpg)
 
 ---
 
