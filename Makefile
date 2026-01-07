@@ -9,7 +9,18 @@ open-browser:
 	@echo "🌐 Opening browser..."
 	@open http://localhost:5173 2>/dev/null || xdg-open http://localhost:5173 2>/dev/null || echo "✅ SpectraGraph ready at http://localhost:5173"
 
-dev:
+
+check-docker:
+	@echo "🐳 Checking Docker status..."
+	@docker ps > /dev/null 2>&1 || \
+		(echo "\n❌ Error: Docker is not running!\n" && \
+		 echo "Please start Docker and try again:" && \
+		 echo "  • Docker Desktop: Open the application" && \
+		 echo "  • Linux: sudo systemctl start docker\n" && \
+		 exit 1)
+	@echo "✓ Docker is running\n"
+
+dev: check-docker
 	@echo "🚀 Starting SpectraGraph in DEVELOPMENT mode..."
 	$(MAKE) check-env
 	docker compose -f docker-compose.dev.yml up --build -d
