@@ -1,6 +1,6 @@
 from .base import ORMBase
 from pydantic import UUID4, BaseModel
-from typing import Optional, Any
+from typing import Optional, Any, List
 from datetime import datetime
 
 
@@ -30,3 +30,14 @@ class AnalysisUpdate(BaseModel):
     last_updated_at: Optional[datetime] = None
     owner_id: Optional[UUID4] = None
     investigation_id: Optional[UUID4] = None
+
+class PaginationMetadata(BaseModel):
+    total_count: int
+    limit: int
+    skip: int
+    has_next: bool
+
+
+class AnalysisListResponse(BaseModel):
+    items: List[AnalysisRead]
+    metadata: PaginationMetadata

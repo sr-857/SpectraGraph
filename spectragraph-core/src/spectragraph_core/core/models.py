@@ -218,6 +218,7 @@ class Analysis(Base):
     __table_args__ = (
         Index("idx_analyses_owner_id", "owner_id"),
         Index("idx_analyses_investigation_id", "investigation_id"),
+        Index("idx_analyses_title_description", "title", "description")
     )
 
 
