@@ -242,9 +242,18 @@ cd ../spectragraph-transforms && poetry run pytest
 cd ../spectragraph-api && poetry run pytest
 ```
 
-### Known Issues
-- Vault tests expect soft-fail behavior; `resolve_params()` currently raises when secrets are missing. Decide whether to revert to logging fallback or update tests to match the stricter behavior.
-- Postgres connection errors occur when Docker is not running.
+## ❓ Troubleshooting
+
+### Database Connection Issues
+
+If you see database connection errors during startup:
+
+1. **Check Docker is running**: `docker ps`
+2. **Start services**: `make dev`
+3. **Check health**: `curl http://localhost:5001/health/db`
+4. **View logs**: `docker-compose logs postgres`
+
+The application will automatically retry connections (5 times) and provide a detailed diagnostic message if it fails.
 
 ## 🐳 Production Deployment
 
