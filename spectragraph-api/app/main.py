@@ -76,7 +76,8 @@ async def health_db():
         latency = (time.time() - start_time) * 1000
         return {"status": "ok", "latency_ms": round(latency, 2)}
     except Exception as exc:
-        return {"status": "unhealthy", "error": str(exc)}
+        logging.getLogger(__name__).error("Database health check failed: %s", exc)
+        return {"status": "unhealthy", "error": "Database unavailable"}
 
 
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
