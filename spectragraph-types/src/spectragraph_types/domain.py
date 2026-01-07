@@ -10,5 +10,11 @@ class Domain(FingerprintBase):
         True, description="Is root or not", title="Is Root Domain"
     )
 
+    def _fingerprint_payload(self) -> dict:
+        return{ 
+             "domain":
+    self.domain.strip().lower()
+        }
+
 
 Domain.model_rebuild()
