@@ -37,6 +37,7 @@ class GraphRepository:
         key_prop: str,
         key_value: str,
         sketch_id: str,
+        fingerprint: str,
         **properties: Any
     ) -> None:
         """
@@ -58,6 +59,7 @@ class GraphRepository:
         # Add required properties
         serialized_props["type"] = node_type.lower()
         serialized_props["sketch_id"] = sketch_id
+        serialized_props["fingerprint"] = fingerprint
         serialized_props["label"] = serialized_props.get("label", key_value)
 
         # Build SET clauses (exclude sketch_id as it's in MERGE)
@@ -71,7 +73,7 @@ class GraphRepository:
         # Build and execute query - MERGE on both key_prop AND sketch_id for uniqueness
         # Use ON CREATE SET to only set created_at when creating, not updating
         query = f"""
-        MERGE (n:{node_type} {{{key_prop}: ${key_prop}, sketch_id: $sketch_id}})
+        MERGE (n:{node_type} {fingerprint: $fingerprint, sketch_id: $sketch_id})
         ON CREATE SET n.created_at = $created_at
         SET {', '.join(set_clauses)}
         """
@@ -81,11 +83,9 @@ class GraphRepository:
     def create_relationship(
         self,
         from_type: str,
-        from_key: str,
-        from_value: str,
+        from_fingerprint: str,
         to_type: str,
-        to_key: str,
-        to_value: str,
+        to_fingerprint: str,
         rel_type: str,
         sketch_id: str,
         **properties: Any
@@ -120,15 +120,15 @@ class GraphRepository:
 
         # MATCH nodes by both key and sketch_id to ensure we're connecting nodes from the same sketch
         query = f"""
-        MATCH (from:{from_type} {{{from_key}: $from_value, sketch_id: $sketch_id}})
-        MATCH (to:{to_type} {{{to_key}: $to_value, sketch_id: $sketch_id}})
+        MATCH (from:{from_type} {{ fingerprint: $from_fingerprint, sketch_id: $sketch_id }})
+        MATCH (to:{to_type} {{ fingerprint: $to_fingerprint, sketch_id: $sketch_id }})
         MERGE (from)-[:{rel_type} {rel_props}]->(to)
         """
-
         params = {
-            "from_value": from_value,
-            "to_value": to_value,
-            **serialized_props
+           "from_fingerprint": from_fingerprint,
+           "to_fingerprint": to_fingerprint,
+           "sketch_id": sketch_id,
+           **serialized_props
         }
 
         self._connection.execute_write(query, params)
@@ -161,8 +161,7 @@ class GraphRepository:
     def _build_node_query(
         self,
         node_type: str,
-        key_prop: str,
-        key_value: str,
+        fingerprint: str,
         sketch_id: str,
         **properties: Any
     ) -> Tuple[str, Dict[str, Any]]:
@@ -183,7 +182,7 @@ class GraphRepository:
         # MERGE on both key_prop AND sketch_id for uniqueness per sketch
         # Use ON CREATE SET to only set created_at when creating, not updating
         query = f"""
-        MERGE (n:{node_type} {{{key_prop}: ${key_prop}, sketch_id: $sketch_id}})
+        MERGE (n:{node_type} {fingerprint: $fingerprint, sketch_id: $sketch_id})
         ON CREATE SET n.created_at = $created_at
         SET {', '.join(set_clauses)}
         """
@@ -191,16 +190,14 @@ class GraphRepository:
         return query, params
 
     def _build_relationship_query(
-        self,
-        from_type: str,
-        from_key: str,
-        from_value: str,
-        to_type: str,
-        to_key: str,
-        to_value: str,
-        rel_type: str,
-        sketch_id: str,
-        **properties: Any
+       self,
+       from_type: str,
+       from_fingerprint: str,
+       to_type: str,
+       to_fingerprint: str,
+       rel_type: str,
+       sketch_id: str,
+       **properties: Any
     ) -> Tuple[str, Dict[str, Any]]:
         """Build a relationship creation query."""
         serialized_props = GraphSerializer.serialize_properties(properties)
@@ -214,16 +211,19 @@ class GraphRepository:
 
         # MATCH nodes by both key and sketch_id to ensure we're connecting nodes from the same sketch
         query = f"""
-        MATCH (from:{from_type} {{{from_key}: $from_value, sketch_id: $sketch_id}})
-        MATCH (to:{to_type} {{{to_key}: $to_value, sketch_id: $sketch_id}})
+        MATCH (from:{from_type} {fingerprint: $from_fingerprint, sketch_id: $sketch_id})
+        MATCH (to:{to_type} {fingerprint: $to_fingerprint, sketch_id: $sketch_id})
         MERGE (from)-[:{rel_type} {rel_props}]->(to)
         """
 
         params = {
-            "from_value": from_value,
-            "to_value": to_value,
-            **serialized_props
+          "from_fingerprint": from_fingerprint,
+          "to_fingerprint": to_fingerprint,
+          "sketch_id": sketch_id,
+          "created_at": datetime.now(timezone.utc).isoformat(),
+          **serialized_props
         }
+            
 
         return query, params
 
@@ -479,7 +479,7 @@ class GraphRepository:
         serialized_props["sketch_id"] = sketch_id
 
         props_str = ", ".join([f"{k}: ${k}" for k in serialized_props.keys()])
-        rel_props = f"{{{props_str}}}"
+        rel_props = "{sketch_id: $sketch_id}"
 
         query = f"""
         MATCH (a) WHERE elementId(a) = $from_id
