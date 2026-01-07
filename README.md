@@ -165,6 +165,8 @@ The application will automatically retry connections (5 times) and provide a det
 | **Celery Tasks Stuck** | Tasks remain 'Pending' | Check Redis logs: `docker logs spectragraph-redis`. Ensure the worker is initialized. |
 | **UI Blank Screen** | `VITE_API_URL` error | Ensure `.env` has the correct API host (usually `http://localhost:5001`). |
 
+For additional setup issues and resolutions, see the full [Troubleshooting Guide](./docs/TROUBLESHOOTING.md).
+
 ---
 
 ## 🗺 SWoC 2026 Roadmap
