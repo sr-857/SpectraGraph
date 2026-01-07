@@ -96,5 +96,3 @@ If you encounter an issue not listed here, feel free to open an Issue.
 3. Restart the SpectraGraph stack:
     ```bash
     make dev
-
-
