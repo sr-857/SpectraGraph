@@ -61,10 +61,10 @@ class Investigation(Base):
         cascade="save-update, merge",
     )
     __table_args__ = (
-        Index("idx_investigations_id", "id"),
-        Index("idx_investigations_owner_id", "owner_id"),
-    )
-
+    UniqueConstraint("owner_id", "name", name="uq_investigation_owner_name"),
+    Index("idx_investigations_id", "id"),
+    Index("idx_investigations_owner_id", "owner_id"),
+)
 
 class Log(Base):
     __tablename__ = "logs"
@@ -145,8 +145,9 @@ class Sketch(Base):
     scans = relationship("Scan", back_populates="sketch")
 
     __table_args__ = (
-        Index("idx_sketches_investigation_id", "investigation_id"),
-        Index("idx_sketches_owner_id", "owner_id"),
+    UniqueConstraint("investigation_id", "title", name="uq_sketch_investigation_title"),
+    Index("idx_sketches_investigation_id", "investigation_id"),
+    Index("idx_sketches_owner_id", "owner_id"),
     )
 
 
