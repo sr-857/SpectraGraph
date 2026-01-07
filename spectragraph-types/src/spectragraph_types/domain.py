@@ -1,8 +1,8 @@
 from typing import Optional
-from pydantic import BaseModel, Field
-from .base import BaseEntity
+from .base import FingerprintBase
+from pydantic import Field 
 
-class Domain(BaseEntity):
+class Domain(FingerprintBase):
     """Represents a domain name and its properties."""
 
     domain: str = Field(..., description="Domain name", title="Domain Name")
