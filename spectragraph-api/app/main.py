@@ -17,6 +17,10 @@ from app.api.routes import scan
 from app.api.routes import keys
 from app.api.routes import types
 from app.api.routes import custom_types
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from app.logging_config import setup_logging
+from app.exceptions import (global_exception_handler, http_exception_handler, validation_exception_handler)
 
 load_dotenv()
 
@@ -28,9 +32,14 @@ origins = [
     "*",
 ]
 
+setup_logging()
 
 app = FastAPI()
 neo4j_connection = Neo4jConnection(URI, USERNAME, PASSWORD)
+
+app.add_exception_handler(Exception, global_exception_handler)
+app.add_exception_handler(StarletteHTTPException, http_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
 
 app.add_middleware(
     CORSMiddleware,
