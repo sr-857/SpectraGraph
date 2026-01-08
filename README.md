@@ -11,6 +11,10 @@
 
 [Explore Live Demo](https://sr-857.github.io/SpectraGraph/landing/) • [Report a Bug](https://github.com/your-repo/issues) • [SWoC Guide](./docs/HACKATHON_BOOTSTRAP.md)
 
+---
+
+![socialwinterofcode_cover](https://github.com/user-attachments/assets/b3b6dd89-1039-48a5-867c-0c81556b77d8)
+
 </div>
 
 ---
