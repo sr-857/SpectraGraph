@@ -7,7 +7,7 @@
 ![Docker Support](https://img.shields.io/badge/Docker-Supported-blue?style=for-the-badge&logo=docker)
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)
 
-**The Open-Source OSINT Intelligence Studio** *Ethical investigations, transparent reporting, and repeatable graph analysis.*
+## **The Open-Source OSINT Intelligence Studio** *Ethical investigations, transparent reporting, and repeatable graph analysis.*
 
 [Explore Live Demo](https://sr-857.github.io/SpectraGraph/landing/) • [Report a Bug](https://github.com/your-repo/issues) • [SWoC Guide](./docs/HACKATHON_BOOTSTRAP.md)
 
@@ -27,6 +27,20 @@ SpectraGraph empowers analysts, journalists, and incident responders to map rela
 - 🛡️ **Built for rigor**, ensuring investigation workflows are defensible end-to-end.
 
 ---
+
+### 🌟 Hall of Fame
+
+<a href="https://github.com/sr-857/SpectraGraph/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=sr-857/SpectraGraph&max=300" />
+</a>
+
+
+###  _Want to see your avatar here? [Make your first contribution today!](CONTRIBUTING.md)_
+
+
+
+
+
 
 ## 🏗 System Architecture
 Understanding the flow between the distributed components is essential for contributors. SpectraGraph uses a **Producer-Consumer** model to handle heavy OSINT workloads.
