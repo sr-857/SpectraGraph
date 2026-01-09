@@ -2,61 +2,151 @@ import inspect
 from typing import Dict, Optional, Type, List, Any
 from spectragraph_core.core.transform_base import Transform
 
-# Domain-related transforms
-from spectragraph_transforms.domain.to_subdomains import SubdomainTransform
-from spectragraph_transforms.domain.to_whois import WhoisTransform
-from spectragraph_transforms.domain.to_ip import ResolveTransform
-from spectragraph_transforms.domain.to_website import DomainToWebsiteTransform
-from spectragraph_transforms.domain.to_root_domain import DomainToRootDomain
-from spectragraph_transforms.domain.to_asn import DomainToAsnTransform
-from spectragraph_transforms.domain.to_history import DomainToHistoryTransform
+# Domain-related transforms (optional imports - keep startup robust)
+try:
+    from spectragraph_transforms.domain.to_subdomains import SubdomainTransform
+except Exception:
+    SubdomainTransform = None
+try:
+    from spectragraph_transforms.domain.to_whois import WhoisTransform
+except Exception:
+    WhoisTransform = None
+try:
+    from spectragraph_transforms.domain.to_ip import ResolveTransform
+except Exception:
+    ResolveTransform = None
+try:
+    from spectragraph_transforms.domain.to_website import DomainToWebsiteTransform
+except Exception:
+    DomainToWebsiteTransform = None
+try:
+    from spectragraph_transforms.domain.to_root_domain import DomainToRootDomain
+except Exception:
+    DomainToRootDomain = None
+try:
+    from spectragraph_transforms.domain.to_asn import DomainToAsnTransform
+except Exception:
+    DomainToAsnTransform = None
+try:
+    from spectragraph_transforms.domain.to_history import DomainToHistoryTransform
+except Exception:
+    DomainToHistoryTransform = None
 
 # IP-related transforms
-from spectragraph_transforms.email.to_domains import EmailToDomainsTransform
-from spectragraph_transforms.individual.to_domains import IndividualToDomainsTransform
-from spectragraph_transforms.ip.to_domain import ReverseResolveTransform
-from spectragraph_transforms.ip.to_infos import IpToInfosTransform
-from spectragraph_transforms.ip.to_asn import IpToAsnTransform
+try:
+    from spectragraph_transforms.email.to_domains import EmailToDomainsTransform
+except Exception:
+    EmailToDomainsTransform = None
+try:
+    from spectragraph_transforms.individual.to_domains import IndividualToDomainsTransform
+except Exception:
+    IndividualToDomainsTransform = None
+try:
+    from spectragraph_transforms.ip.to_domain import ReverseResolveTransform
+except Exception:
+    ReverseResolveTransform = None
+try:
+    from spectragraph_transforms.ip.to_infos import IpToInfosTransform
+except Exception:
+    IpToInfosTransform = None
+try:
+    from spectragraph_transforms.ip.to_asn import IpToAsnTransform
+except Exception:
+    IpToAsnTransform = None
 
 # ASN-related transforms
-from spectragraph_transforms.asn.to_cidrs import AsnToCidrsTransform
+try:
+    from spectragraph_transforms.asn.to_cidrs import AsnToCidrsTransform
+except Exception:
+    AsnToCidrsTransform = None
 
 # CIDR-related transforms
-from spectragraph_transforms.cidr.to_ips import CidrToIpsTransform
+try:
+    from spectragraph_transforms.cidr.to_ips import CidrToIpsTransform
+except Exception:
+    CidrToIpsTransform = None
 
 # Social media transforms
-from spectragraph_transforms.organization.to_domains import OrgToDomainsTransform
-from spectragraph_transforms.social.to_maigret import MaigretTransform
+try:
+    from spectragraph_transforms.organization.to_domains import OrgToDomainsTransform
+except Exception:
+    OrgToDomainsTransform = None
+try:
+    from spectragraph_transforms.social.to_maigret import MaigretTransform
+except Exception:
+    MaigretTransform = None
 
 # Organization-related transforms
-from spectragraph_transforms.organization.to_asn import OrgToAsnTransform
-from spectragraph_transforms.organization.to_infos import OrgToInfosTransform
+try:
+    from spectragraph_transforms.organization.to_asn import OrgToAsnTransform
+except Exception:
+    OrgToAsnTransform = None
+try:
+    from spectragraph_transforms.organization.to_infos import OrgToInfosTransform
+except Exception:
+    OrgToInfosTransform = None
 
 # Cryptocurrency transforms
-from spectragraph_transforms.crypto.to_transactions import (
-    CryptoWalletAddressToTransactions,
-)
-from spectragraph_transforms.crypto.to_nfts import CryptoWalletAddressToNFTs
+try:
+    from spectragraph_transforms.crypto.to_transactions import (
+        CryptoWalletAddressToTransactions,
+    )
+except Exception:
+    CryptoWalletAddressToTransactions = None
+try:
+    from spectragraph_transforms.crypto.to_nfts import CryptoWalletAddressToNFTs
+except Exception:
+    CryptoWalletAddressToNFTs = None
 
 # Website-related transforms
-from spectragraph_transforms.website.to_crawler import WebsiteToCrawler
-from spectragraph_transforms.website.to_links import WebsiteToLinks
-from spectragraph_transforms.website.to_domain import WebsiteToDomainTransform
-from spectragraph_transforms.website.to_text import WebsiteToText
-from spectragraph_transforms.website.to_webtrackers import WebsiteToWebtrackersTransform
+try:
+    from spectragraph_transforms.website.to_crawler import WebsiteToCrawler
+except Exception:
+    WebsiteToCrawler = None
+try:
+    from spectragraph_transforms.website.to_links import WebsiteToLinks
+except Exception:
+    WebsiteToLinks = None
+try:
+    from spectragraph_transforms.website.to_domain import WebsiteToDomainTransform
+except Exception:
+    WebsiteToDomainTransform = None
+try:
+    from spectragraph_transforms.website.to_text import WebsiteToText
+except Exception:
+    WebsiteToText = None
+try:
+    from spectragraph_transforms.website.to_webtrackers import WebsiteToWebtrackersTransform
+except Exception:
+    WebsiteToWebtrackersTransform = None
 
 # Email-related transforms
-from spectragraph_transforms.email.to_gravatar import EmailToGravatarTransform
-from spectragraph_transforms.email.to_leaks import EmailToBreachesTransform
+try:
+    from spectragraph_transforms.email.to_gravatar import EmailToGravatarTransform
+except Exception:
+    EmailToGravatarTransform = None
+try:
+    from spectragraph_transforms.email.to_leaks import EmailToBreachesTransform
+except Exception:
+    EmailToBreachesTransform = None
 
 # Phone-related transforms
-from spectragraph_transforms.phone.to_leaks import PhoneToBreachesTransform
+try:
+    from spectragraph_transforms.phone.to_leaks import PhoneToBreachesTransform
+except Exception:
+    PhoneToBreachesTransform = None
 
 # Individual-related transforms
-from spectragraph_transforms.individual.to_org import IndividualToOrgTransform
+try:
+    from spectragraph_transforms.individual.to_org import IndividualToOrgTransform
+except Exception:
+    IndividualToOrgTransform = None
 
 # Integration transforms
-from spectragraph_transforms.n8n.connector import N8nConnector
+try:
+    from spectragraph_transforms.n8n.connector import N8nConnector
+except Exception:
+    N8nConnector = None
 
 
 class TransformRegistry:
@@ -148,54 +238,84 @@ class TransformRegistry:
 # Register all transforms
 
 # Domain-related transforms
-TransformRegistry.register(ReverseResolveTransform)
-TransformRegistry.register(ResolveTransform)
-TransformRegistry.register(SubdomainTransform)
-TransformRegistry.register(WhoisTransform)
-TransformRegistry.register(DomainToWebsiteTransform)
-TransformRegistry.register(DomainToRootDomain)
-TransformRegistry.register(DomainToAsnTransform)
-TransformRegistry.register(DomainToHistoryTransform)
+if ReverseResolveTransform is not None:
+    TransformRegistry.register(ReverseResolveTransform)
+if ResolveTransform is not None:
+    TransformRegistry.register(ResolveTransform)
+if SubdomainTransform is not None:
+    TransformRegistry.register(SubdomainTransform)
+if WhoisTransform is not None:
+    TransformRegistry.register(WhoisTransform)
+if DomainToWebsiteTransform is not None:
+    TransformRegistry.register(DomainToWebsiteTransform)
+if DomainToRootDomain is not None:
+    TransformRegistry.register(DomainToRootDomain)
+if DomainToAsnTransform is not None:
+    TransformRegistry.register(DomainToAsnTransform)
+if DomainToHistoryTransform is not None:
+    TransformRegistry.register(DomainToHistoryTransform)
 
 # IP-related transforms
-TransformRegistry.register(IpToInfosTransform)
-TransformRegistry.register(IpToAsnTransform)
+if IpToInfosTransform is not None:
+    TransformRegistry.register(IpToInfosTransform)
+if IpToAsnTransform is not None:
+    TransformRegistry.register(IpToAsnTransform)
 
 # ASN-related transforms
-TransformRegistry.register(AsnToCidrsTransform)
+if AsnToCidrsTransform is not None:
+    TransformRegistry.register(AsnToCidrsTransform)
 
 # CIDR-related transforms
-TransformRegistry.register(CidrToIpsTransform)
+if CidrToIpsTransform is not None:
+    TransformRegistry.register(CidrToIpsTransform)
 
 # Social media transforms
-TransformRegistry.register(MaigretTransform)
+if MaigretTransform is not None:
+    TransformRegistry.register(MaigretTransform)
 
 # Organization-related transforms
-TransformRegistry.register(OrgToAsnTransform)
-TransformRegistry.register(OrgToInfosTransform)
-TransformRegistry.register(OrgToDomainsTransform)
+if OrgToAsnTransform is not None:
+    TransformRegistry.register(OrgToAsnTransform)
+if OrgToInfosTransform is not None:
+    TransformRegistry.register(OrgToInfosTransform)
+if OrgToDomainsTransform is not None:
+    TransformRegistry.register(OrgToDomainsTransform)
 # Cryptocurrency transforms
-TransformRegistry.register(CryptoWalletAddressToTransactions)
-TransformRegistry.register(CryptoWalletAddressToNFTs)
+if CryptoWalletAddressToTransactions is not None:
+    TransformRegistry.register(CryptoWalletAddressToTransactions)
+if CryptoWalletAddressToNFTs is not None:
+    TransformRegistry.register(CryptoWalletAddressToNFTs)
 
 # Website-related transforms
-TransformRegistry.register(WebsiteToCrawler)
-TransformRegistry.register(WebsiteToLinks)
-TransformRegistry.register(WebsiteToDomainTransform)
-TransformRegistry.register(WebsiteToWebtrackersTransform)
-TransformRegistry.register(WebsiteToText)
+if WebsiteToCrawler is not None:
+    TransformRegistry.register(WebsiteToCrawler)
+if WebsiteToLinks is not None:
+    TransformRegistry.register(WebsiteToLinks)
+if WebsiteToDomainTransform is not None:
+    TransformRegistry.register(WebsiteToDomainTransform)
+if WebsiteToWebtrackersTransform is not None:
+    TransformRegistry.register(WebsiteToWebtrackersTransform)
+if WebsiteToText is not None:
+    TransformRegistry.register(WebsiteToText)
 
 # Email-related transforms
-TransformRegistry.register(EmailToGravatarTransform)
-TransformRegistry.register(EmailToBreachesTransform)
-TransformRegistry.register(EmailToDomainsTransform)
+if EmailToGravatarTransform is not None:
+    TransformRegistry.register(EmailToGravatarTransform)
+if EmailToBreachesTransform is not None:
+    TransformRegistry.register(EmailToBreachesTransform)
+if EmailToDomainsTransform is not None:
+    TransformRegistry.register(EmailToDomainsTransform)
 
 # Phone-related transforms
-TransformRegistry.register(PhoneToBreachesTransform)
+if PhoneToBreachesTransform is not None:
+    TransformRegistry.register(PhoneToBreachesTransform)
 
 # Individual-related transforms
-TransformRegistry.register(IndividualToOrgTransform)
-TransformRegistry.register(IndividualToDomainsTransform)
+if IndividualToOrgTransform is not None:
+    TransformRegistry.register(IndividualToOrgTransform)
+if IndividualToDomainsTransform is not None:
+    TransformRegistry.register(IndividualToDomainsTransform)
 
 # Integration transforms
-TransformRegistry.register(N8nConnector)
+if N8nConnector is not None:
+    TransformRegistry.register(N8nConnector)
